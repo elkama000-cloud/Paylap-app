@@ -1,0 +1,394 @@
+!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PayLap Top-Lapin - Commandes & Ventes de Lapins Frais</title>
+<style>
+​{ box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background: #f3f4f6; color: #1f2937; padding: 15px; }
+.container { max-width: 650px; margin: 0 auto; background: white; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+h1 { color: #d97706; text-align: center; margin-bottom: 5px; font-size: 26px; }
+.subtitle { text-align: center; color: #6b7280; font-size: 14px; margin-bottom: 20px; }
+.section-title { font-size: 17px; font-weight: bold; margin: 20px 0 10px 0; color: #374151; border-bottom: 2px solid #f3f4f6; padding-bottom: 5px; }
+.product-card { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; }
+.btn { background: #10b981; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+.btn:hover { opacity: 0.9; }
+.btn-danger { background: #ef4444; }
+.btn-wa { background: #25D366; }
+.btn-blue { background: #3b82f6; }
+input, select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; margin-bottom: 12px; font-size: 14px; }
+.total-box { background: #fffbeb; border: 1px solid #fde68a; padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 18px; font-weight: bold; text-align: right; color: #b45309; }
+.info-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px; font-size: 13px; color: #92400e; margin-bottom: 15px; border-radius: 4px; line-height: 1.5; }
+.dashboard { margin-top: 35px; border-top: 3px solid #e5e7eb; padding-top: 20px; }
+.ca-card { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 18px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; display: inline-block; }
+.badge-attente { background: #f59e0b; }
+.badge-cours { background: #3b82f6; }
+.badge-livree { background: #10b981; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🐰 PAYLAP TOP-LAPIN</h1>
+<div class="subtitle">Viande de lapin fraîche, fumée, 100% locale et Halal</div>
+​<!-- INFO CATALOGUE -->
+<div class="info-box">
+<strong>💡 Pourquoi choisir Top-Lapin ?</strong>
+
+Viande tendre, légère, pauvre en cholestérol. Abattu la veille et conservé entre 0°C et +4°C, conditionné sous vide.
+
+<em>Livraisons :</em> Mardi, Mercredi, Vendredi, Samedi (8H à 19H).
+</div>
+​<!-- CATALOGUE OFFICIEL -->
+<div class="section-title">Catalogue & Tarifs Officiels</div>
+<div id="catalogue">
+<div class="product-card">
+<div><strong>Lapin Pelé (sans la peau)</strong>
+<small style="color: #6b7280;">1,8kg (8.000F) ou 2,5kg (10.000F)</small></div>
+<div style="display: flex; gap: 5px;">
+<button class="btn" onclick="ajouterAuPanier('Lapin Pelé 1.8kg', 8000)">1,8kg (8k)</button>
+<button class="btn" onclick="ajouterAuPanier('Lapin Pelé 2.5kg', 10000)">2,5kg (10k)</button>
+</div>
+</div>
+<div class="product-card">
+<div><strong>Lapin Entier Doré (avec peau)</strong>
+<small style="color: #6b7280;">1,8kg (8.000F) ou 2,5kg (10.000F)</small></div>
+<div style="display: flex; gap: 5px;">
+<button class="btn" onclick="ajouterAuPanier('Lapin Doré 1.8kg', 8000)">1,8kg (8k)</button>
+<button class="btn" onclick="ajouterAuPanier('Lapin Doré 2.5kg', 10000)">2,5kg (10k)</button>
+</div>
+</div>
+<div class="product-card">
+<div><strong>1/2 Lapin</strong>
+<small style="color: #6b7280;">Format partiel (4.500F / 5.000F)</small></div>
+<div style="display: flex; gap: 5px;">
+<button class="btn" onclick="ajouterAuPanier('1/2 Lapin (1.8kg)', 4500)">1,8kg (4.5k)</button>
+<button class="btn" onclick="ajouterAuPanier('1/2 Lapin (2.5kg)', 5000)">2,5kg (5k)</button>
+</div>
+</div>
+<div class="product-card">
+<div><strong>4 Cuisses de Lapin frais</strong>
+<small style="color: #6b7280;">4.500 FCFA</small></div>
+<button class="btn" onclick="ajouterAuPanier('4 Cuisses de Lapin', 4500)">Ajouter</button>
+</div>
+<div class="product-card">
+<div><strong>Découpes en morceaux</strong>
+<small style="color: #6b7280;">+200F de frais de découpe</small></div>
+<button class="btn" onclick="ajouterAuPanier('Option Découpes en morceaux', 200)">Ajouter (+200F)</button>
+</div>
+</div>
+​<!-- PANIER -->
+<div class="section-title">Mon Panier</div>
+<div id="listePanier" style="margin-bottom: 15px; color: #6b7280; font-size: 14px; background: #f9fafb; padding: 12px; border-radius: 8px;">Votre panier est vide.</div>
+​<!-- LIVRAISON & COMMUNE -->
+<div class="section-title">Lieu de Livraison</div>
+<select id="commune" onchange="mettreAJourTotal()">
+<option value="1500">Yopougon / Songon / Abobo / Adjamé (1.500 F)</option>
+<option value="2000">Cocody / Bingerville (2.000 F)</option>
+<option value="2000">Treichville à Port-Bouët (2.000 F)</option>
+<option value="2500">Grand-Bassam (2.500 F)</option>
+</select>
+​<!-- CODE PROMO -->
+<div style="background: #f9f9f9; padding: 12px; border-radius: 8px; border: 1px dashed #d1d5db; margin-bottom: 15px;">
+<label style="font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Avez-vous un code promo ?</label>
+<div style="display: flex; gap: 8px;">
+<input type="text" id="inputPromo" placeholder="Ex: TOP10" style="margin-bottom:0; text-transform:uppercase;">
+<button class="btn" onclick="appliquerPromo()" style="padding: 8px 15px;">Appliquer</button>
+</div>
+<small id="messagePromo" style="display: block; margin-top: 5px;"></small>
+</div>
+​<!-- MODE DE PAIEMENT -->
+<div class="section-title">Mode de Paiement</div>
+<select id="modePaiement" style="margin-bottom: 15px;">
+<option value="Paiement à la réception (Espèces / Mobile Money)">💵 Paiement à la réception (Espèces / Mobile Money)</option>
+<option value="Wave Direct">🔵 Wave Direct</option>
+<option value="Orange Money">🟠 Orange Money</option>
+<option value="MTN MoMo">🟡 MTN MoMo</option>
+</select>
+​<!-- INFOS CLIENT -->
+<div class="section-title">Vos Coordonnées de Livraison</div>
+<input type="text" id="nomClient" placeholder="Nom et Prénom">
+<input type="tel" id="telClient" placeholder="Numéro de téléphone (ex: 07XXXXXXXX)">
+<input type="text" id="adresseClient" placeholder="Adresse précise / Quartier / Repère (ex: Angré 8e Tranche...)">
+​<!-- TOTAL -->
+<div class="total-box" id="affichageTotal">Total : 0 FCFA</div>
+​<!-- BOUTONS COMMANDE & ANNULATION -->
+<button class="btn btn-wa" onclick="validerEtCommander()" style="width: 100%; padding: 15px; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+💬 Valider et envoyer la commande sur WhatsApp
+</button>
+<button class="btn btn-danger" onclick="annulerCommandeClient()" style="width: 100%; padding: 10px; font-size: 14px; margin-bottom: 15px;">
+❌ Annuler mon panier
+</button>
+​<!-- ASSISTANCE CLIENT WHATSAPP -->
+<div style="text-align: center; margin: 20px 0; padding-top: 10px; border-top: 1px solid #e5e7eb;">
+<a href="https://wa.me/2250700000000?text=Bonjour,%20j'ai%20besoin%20d'aide%20concernant%20ma%20commande%20PayLap%20Top-Lapin." target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 10px 18px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,211,102,0.3);">
+💬 Besoin d'aide ? Contactez l'assistance WhatsApp
+</a>
+</div>
+​<!-- TABLEAU DE BORD VENDEUR -->
+<div class="dashboard">
+<h2 style="color: #374151; font-size: 18px; margin-bottom: 15px;">📊 Tableau de Bord Vendeur</h2>
+<div class="ca-card">
+<div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">💰 Chiffre d'Affaires du Jour</div>
+<div id="caJourMontant" style="font-size: 26px; font-weight: bold;">0 FCFA</div>
+<small id="caJourDate" style="opacity: 0.8; font-size: 12px;"></small>
+</div>
+<div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+<button class="btn btn-blue" onclick="exporterCommandesCSV()" style="flex: 1; padding: 10px;">
+📥 Télécharger rapport Excel/CSV
+</button>
+</div>
+<div style="background: #f9fafb; padding: 12px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+<div style="flex: 1; min-width: 180px;">
+<label style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Filtrer par commune :</label>
+<select id="filtreCommune" onchange="filtrerCommandes()" style="margin-bottom:0; padding: 6px;">
+<option value="TOUTES">Toutes les communes</option>
+<option value="Yopougon">Yopougon</option>
+<option value="Songon">Songon</option>
+<option value="Abobo">Abobo</option>
+<option value="Adjamé">Adjamé</option>
+<option value="Cocody">Cocody</option>
+<option value="Bingerville">Bingerville</option>
+<option value="Treichville">Treichville à Port-Bouët</option>
+<option value="Grand-Bassam">Grand-Bassam</option>
+</select>
+</div>
+<div style="flex: 1; min-width: 180px;">
+<label style="font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px;">Filtrer par date :</label>
+<input type="date" id="filtreDate" onchange="filtrerCommandes()" style="margin-bottom:0; padding: 5px;">
+</div>
+</div>
+<!-- LISTE DES COMMANDES VENDEUR -->
+<div id="listeCommandesVendeur">
+<p style="color: #6b7280; font-size: 14px; text-align: center; padding: 15px;">Aucune commande enregistrée pour le moment.</p>
+</div>
+</div>
+</div>
+​<script>
+let panier = [];
+let montantReduction = 0;
+let listeCommandes = JSON.parse(localStorage.getItem('topLapinCommandes')) || [];
+​function ajouterAuPanier(nom, prix) {
+let article = panier.find(item => item.nom === nom);
+if (article) {
+article.qte += 1;
+} else {
+panier.push({ nom: nom, prix: prix, qte: 1 });
+}
+mettreAJourPanier();
+}
+​function supprimerArticle(index) {
+panier.splice(index, 1);
+mettreAJourPanier();
+}
+​function mettreAJourPanier() {
+const container = document.getElementById('listePanier');
+if (panier.length === 0) {
+container.innerHTML = "Votre panier est vide.";
+mettreAJourTotal();
+return;
+}
+let html = "";
+panier.forEach((item, index) => {
+html += <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; border-bottom:1px solid #eee; padding-bottom:4px;"> <span><strong>${item.nom}</strong> x${item.qte}</span> <span>${(item.prix * item.qte).toLocaleString('fr-FR')} F <button onclick="supprimerArticle(${index})" style="color:#ef4444; border:none; background:none; cursor:pointer; font-weight:bold; margin-left:8px;">❌</button></span> </div>;
+});
+container.innerHTML = html;
+mettreAJourTotal();
+}
+​function obtenirFraisLivraison() {
+const selectCommune = document.getElementById('commune');
+return Number(selectCommune.value);
+}
+​function appliquerPromo() {
+const code = document.getElementById('inputPromo').value.trim().toUpperCase();
+const msg = document.getElementById('messagePromo');
+const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.qte), 0);
+if (code === "TOP10") {
+montantReduction = sousTotal * 0.10;
+msg.style.color = "#10b981";
+msg.innerText = "✅ Code promo appliqué : -10%";
+} else if (code === "LAPIN500") {
+montantReduction = 500;
+msg.style.color = "#10b981";
+msg.innerText = "✅ Code promo appliqué : -500 FCFA";
+} else {
+montantReduction = 0;
+msg.style.color = "#ef4444";
+msg.innerText = "❌ Code promo invalide";
+}
+mettreAJourTotal();
+}
+​function mettreAJourTotal() {
+const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.qte), 0);
+const frais = obtenirFraisLivraison();
+let total = (sousTotal + frais) - montantReduction;
+if (total < 0) total = 0;
+document.getElementById('affichageTotal').innerText = Total : ${total.toLocaleString('fr-FR')} FCFA;
+}
+​function validerEtCommander() {
+if (panier.length === 0) {
+alert("Votre panier est vide ! Veuillez ajouter au moins un article.");
+return;
+}
+const nom = document.getElementById('nomClient').value.trim();
+const tel = document.getElementById('telClient').value.trim();
+const adresse = document.getElementById('adresseClient').value.trim();
+const modePaiement = document.getElementById('modePaiement').value;
+​if (!nom || !tel) {
+alert("Veuillez renseigner votre nom et votre numéro de téléphone.");
+return;
+}
+​const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.qte), 0);
+const frais = obtenirFraisLivraison();
+let total = (sousTotal + frais) - montantReduction;
+if (total < 0) total = 0;
+​const selectCommune = document.getElementById('commune');
+const texteCommune = selectCommune.options[selectCommune.selectedIndex].text;
+const communeNom = texteCommune.split('(')[0].trim();
+const aujourdhui = new Date().toISOString().split('T')[0];
+​const nouvelleCommande = {
+id: Date.now(),
+nom: nom,
+telephone: tel,
+adresse: adresse || "Non spécifiée",
+commune: communeNom,
+fraisLivraison: frais,
+total: total,
+articles: [...panier],
+moyenPaiement: modePaiement,
+date: aujourdhui,
+statut: "En attente"
+};
+​listeCommandes.push(nouvelleCommande);
+localStorage.setItem('topLapinCommandes', JSON.stringify(listeCommandes));
+jouerSonNotification();
+​let detailsArticles = "";
+panier.forEach(item => {
+detailsArticles += • ${item.nom} (x${item.qte}) - ${item.prix * item.qte} F%0A;
+});
+​let message = 🐰 *NOUVELLE COMMANDE TOP-LAPIN*%0A%0A;
+message += 👤 *Client :* ${nom}%0A;
+message += 📞 *Téléphone :* ${tel}%0A;
+message += 📍 *Commune :* ${communeNom}%0A;
+message += 🏠 *Adresse / Repère :* ${adresse || "Non spécifiée"}%0A;
+message += 💳 *Paiement :* ${modePaiement}%0A;
+message += 🛵 *Frais de livraison :* ${frais} F%0A;
+message += -----------------------------------%0A;
+message += *Détail du panier :*%0A${detailsArticles};
+message += -----------------------------------%0A;
+message += 💰 *TOTAL À PAYER :* *${total.toLocaleString('fr-FR')} FCFA*%0A;
+message += ⚡ _Commande générée via l'application PayLap Top-Lapin_;
+​const numeroVendeur = "2250700000000"; // Mettez votre numéro WhatsApp pro ici
+window.open(https://wa.me/${numeroVendeur}?text=${message}, '_blank');
+​panier = [];
+montantReduction = 0;
+document.getElementById('inputPromo').value = "";
+document.getElementById('messagePromo').innerText = "";
+mettreAJourPanier();
+rafraichirTableauBord();
+}
+​function annulerCommandeClient() {
+if (confirm("Voulez-vous vider votre panier actuel ?")) {
+panier = [];
+montantReduction = 0;
+document.getElementById('inputPromo').value = "";
+document.getElementById('messagePromo').innerText = "";
+mettreAJourPanier();
+alert("Panier annulé.");
+}
+}
+​function changerStatutCommande(idCommande, nouveauStatut) {
+const cmd = listeCommandes.find(c => c.id === idCommande);
+if (cmd) {
+cmd.statut = nouveauStatut;
+localStorage.setItem('topLapinCommandes', JSON.stringify(listeCommandes));
+rafraichirTableauBord();
+}
+}
+​function mettreAJourCA() {
+const aujourdhui = new Date().toISOString().split('T')[0];
+const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
+const dateLisible = new Date().toLocaleDateString('fr-FR', optionsDate);
+document.getElementById('caJourDate').innerText = Date : ${dateLisible};
+const duJour = listeCommandes.filter(c => c.date === aujourdhui);
+const totalCA = duJour.reduce((sum, c) => sum + c.total, 0);
+document.getElementById('caJourMontant').innerText = totalCA.toLocaleString('fr-FR') + " FCFA";
+}
+​function afficherCommandesVendeur(commandesAffichees) {
+const container = document.getElementById('listeCommandesVendeur');
+if (commandesAffichees.length === 0) {
+container.innerHTML = <p style="color: #6b7280; font-size: 14px; text-align: center; padding: 15px;">Aucune commande correspondante.</p>;
+return;
+}
+let html = "";
+commandesAffichees.slice().reverse().forEach(cmd => {
+let classeBadge = "badge-attente";
+if (cmd.statut === "En cours") classeBadge = "badge-cours";
+if (cmd.statut === "Livrée") classeBadge = "badge-livree";
+let details = "";
+if (cmd.articles) {
+cmd.articles.forEach(art => {
+details += • ${art.nom} (x${art.qte})<br>;
+});
+}
+html += <div style="background:#ffffff; border:1px solid #e5e7eb; padding:15px; border-radius:10px; margin-bottom:12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);"> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"> <strong>#${cmd.id.toString().slice(-4)} - ${cmd.nom}</strong> <span class="badge ${classeBadge}">${cmd.statut || "En attente"}</span> </div> <div style="font-size:13px; color:#4b5563; margin-bottom:8px;"> 📞 Tél : <a href="tel:${cmd.telephone}">${cmd.telephone}</a><br> 📍 Commune : <strong>${cmd.commune}</strong><br> 🏠 Adresse : ${cmd.adresse}<br> 💳 Paiement : <strong>${cmd.moyenPaiement}</strong><br> 🛒 Articles :<div style="margin-left:10px; color:#1f2937;">${details}</div> 💰 Total : <strong>${cmd.total.toLocaleString('fr-FR')} FCFA</strong> (${cmd.date}) </div> <div style="display:flex; gap:6px; flex-wrap:wrap; border-top:1px solid #f3f4f6; padding-top:8px;"> <button onclick="changerStatutCommande(${cmd.id}, 'En cours')" style="background:#f59e0b; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:11px; font-weight:bold; cursor:pointer;">⏳ En cours</button> <button onclick="changerStatutCommande(${cmd.id}, 'Livrée')" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:11px; font-weight:bold; cursor:pointer;">✅ Livrée</button> </div> </div>;
+});
+container.innerHTML = html;
+}
+​function filtrerCommandes() {
+const communeSel = document.getElementById('filtreCommune').value;
+const dateSel = document.getElementById('filtreDate').value;
+const filtres = listeCommandes.filter(cmd => {
+const matchCommune = (communeSel === "TOUTES" || cmd.commune === communeSel);
+const matchDate = (!dateSel || cmd.date === dateSel);
+return matchCommune && matchDate;
+});
+afficherCommandesVendeur(filtres);
+}
+​function exporterCommandesCSV() {
+if (listeCommandes.length === 0) { alert("Aucune commande à exporter."); return; }
+let csv = "\uFEFFID;Client;Telephone;Commune;Adresse;Paiement;Total (FCFA);Statut;Date\n";
+listeCommandes.forEach(c => {
+csv += ${c.id};"${c.nom}";"${c.telephone}";"${c.commune}";"${c.adresse}";"${c.moyenPaiement}";${c.total};"${c.statut}";${c.date}\n;
+});
+const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = Rapport_PayLap_${new Date().toISOString().split('T')[0]}.csv;
+link.click();
+}
+​function jouerSonNotification() {
+try {
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const osc = audioCtx.createOscillator();
+const gain = audioCtx.createGain();
+osc.type = 'sine';
+osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.5);
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+osc.start();
+osc.stop(audioCtx.currentTime + 0.5);
+} catch (e) {
+console.log("Audio non pris en charge.");
+}
+}
+​function rafraichirTableauBord() {
+mettreAJourCA();
+filtrerCommandes();
+}
+​setInterval(() => {
+let stockActuel = JSON.parse(localStorage.getItem('topLapinCommandes')) || [];
+if (stockActuel.length !== listeCommandes.length) {
+listeCommandes = stockActuel;
+rafraichirTableauBord();
+}
+}, 3000);
+​window.onload = function() {
+rafraichirTableauBord();
+};
+</script>
+</body>
+</html
