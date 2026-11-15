@@ -1,420 +1,310 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PayLap Top-Lapin - Commandes & Ventes de Lapins Frais</title>
-<style>
-​{ box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { background: #fdfbf7; color: #1f2937; padding: 15px; }
-.container { max-width: 650px; margin: 0 auto; background: white; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(217,119,6,0.12); border-top: 5px solid #d4af37; }
-h1 { color: #b45309; text-align: center; margin-bottom: 5px; font-size: 26px; }
-.subtitle { text-align: center; color: #78716c; font-size: 14px; margin-bottom: 20px; }
-.section-title { font-size: 17px; font-weight: bold; margin: 20px 0 10px 0; color: #92400e; border-bottom: 2px solid #fef3c7; padding-bottom: 5px; }
-.product-card { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; margin-bottom: 10px; }
-.btn { background: #d97706; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-.btn:hover { opacity: 0.9; }
-.btn-danger { background: #ef4444; }
-.btn-wa { background: #25D366; }
-.btn-blue { background: #3b82f6; }
-input, select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; margin-bottom: 12px; font-size: 14px; }
-.total-box { background: #fef3c7; border: 1px solid #f59e0b; padding: 15px; border-radius: 8px; margin: 15px 0; font-size: 18px; font-weight: bold; text-align: right; color: #92400e; }
-.info-box { background: #fffbeb; border-left: 4px solid #d97706; padding: 12px; font-size: 13px; color: #92400e; margin-bottom: 15px; border-radius: 4px; line-height: 1.5; }
-.dashboard { margin-top: 35px; border-top: 3px solid #fef3c7; padding-top: 20px; }
-.ca-card { background: linear-gradient(135deg, #f59e0b, #b45309); color: white; padding: 18px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; display: inline-block; }
-.badge-attente { background: #f59e0b; }
-.badge-cours { background: #3b82f6; }
-.badge-livree { background: #10b981; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayLap Top-Lapin - Commandes & Suivi</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #fdfbf7; color: #1f2937; padding: 15px; }
+        .container { max-width: 650px; margin: 0 auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #fef3c7; }
+        h1 { color: #b45309; text-align: center; font-size: 24px; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #4b5563; font-size: 14px; margin-bottom: 20px; }
+        .info-box { background: #fffbeb; border-left: 4px solid #d97706; padding: 12px; font-size: 13px; color: #92400e; border-radius: 4px; margin-bottom: 20px; line-height: 1.4; }
+        .section-title { font-size: 17px; font-weight: bold; color: #b45309; margin: 20px 0 10px 0; border-bottom: 2px solid #fef3c7; padding-bottom: 5px; }
+        
+        .product-card { display: flex; align-items: center; background: #fff; border: 1px solid #fef3c7; border-radius: 12px; padding: 12px; margin-bottom: 12px; gap: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .product-img { width: 85px; height: 85px; object-fit: cover; border-radius: 8px; border: 1px solid #f3f4f6; flex-shrink: 0; }
+        .product-info { flex-grow: 1; }
+        .product-name { font-weight: bold; font-size: 14px; color: #1f2937; margin-bottom: 2px; }
+        .product-desc { font-size: 12px; color: #6b7280; margin-bottom: 6px; }
+        .price-options { display: flex; gap: 6px; flex-wrap: wrap; }
+        .btn-price { background: #d97706; color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; font-weight: bold; transition: background 0.2s; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+        .btn-price:hover { background: #b45309; }
+        .btn-price span.weight { font-size: 10px; opacity: 0.85; font-weight: normal; }
+
+        .cart-box { background: #fffbeb; border: 1px solid #fef3c7; border-radius: 10px; padding: 15px; margin-top: 20px; }
+        .cart-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; border-bottom: 1px dashed #fcd34d; padding-bottom: 5px; }
+        .cart-total { font-weight: bold; text-align: right; font-size: 16px; color: #b45309; margin-top: 10px; }
+
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 13px; font-weight: bold; color: #374151; margin-bottom: 4px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; background: #fff; }
+        
+        .btn-wa { background: #25D366; color: white; width: 100%; border: none; padding: 14px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-wa:hover { background: #20ba5a; }
+
+        .dashboard { margin-top: 30px; border-top: 3px solid #d97706; padding-top: 15px; }
+        .order-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; margin-bottom: 10px; font-size: 13px; }
+        .status-badge { display: inline-block; padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+        .status-1 { background: #fef3c7; color: #b45309; }
+        .status-2 { background: #dbeafe; color: #1e40af; }
+        .status-3 { background: #d1fae5; color: #065f46; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tab-btn { flex: 1; padding: 8px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; background: #e5e7eb; color: #374151; }
+        .tab-btn.active { background: #d97706; color: white; }
+        
+        .admin-toggle { margin-top: 30px; text-align: center; padding-top: 15px; border-top: 1px dashed #d1d5db; }
+        .admin-panel { background: #fff7ed; border: 2px solid #ea580c; border-radius: 12px; padding: 15px; margin-top: 15px; display: none; }
+        
+        #vue-fournisseur-exclusive { display: none; }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>🐰 PAYLAP TOP-LAPIN</h1>
-<div class="subtitle">Viande de lapin fraîche, fumée, 100% locale et Halal</div>
-​<!-- INFO CATALOGUE -->
-<div class="info-box">
-<strong>💡 Pourquoi choisir Top-Lapin ?</strong>
 
-Viande tendre, légère, pauvre en cholestérol. Abattu la veille et conservé entre 0°C et +4°C, conditionné sous vide.
+<div class="container" id="app-main-container">
+    <!-- VUE CLIENT & VENDEUR PRINCIPALE -->
+    <div id="vue-client">
+        <h1>🐰 TOP-LAPIN</h1>
+        <div class="subtitle">Viande de lapin fraîche, fumée, 100% locale et Halal</div>
 
-<em>Livraisons :</em> Mardi, Mercredi, Vendredi, Samedi (8H à 19H).
+        <!-- Présentation Officielle -->
+        <div class="info-box" style="background: #fffbeb; border-left: 4px solid #d97706; padding: 15px; margin-bottom: 20px; border-radius: 8px; font-size: 13px; line-height: 1.6;">
+            <p style="font-weight: bold; margin-bottom: 8px; color: #b45309;">* Envie de changer de menus (poulet, poisson) pour vos repas en famille? vivez une nouvelle expérience avec TOP-LAPIN.</p>
+            <ul style="margin-left: 18px; margin-bottom: 8px;">
+                <li>Nous vous proposons de la viande de lapin fraîche ou fumée, 100% locale et prête à cuire dans votre cuisine.</li>
+                <li>Nos lapins sont élevés localement, abattus à la commande dans des conditions d'hygiène strictes et livrés directement chez vous à la maison, partout à ABIDJAN et ses environs : <b>Songon, Anyama, Bingerville, Grand-Bassam</b>.</li>
+            </ul>
+            <p style="font-weight: bold; margin-top: 10px; margin-bottom: 4px; color: #b45309;">* Pourquoi choisir Top-Lapin ?</p>
+            <p style="margin-bottom: 6px;">Top-Lapin est une viande tendre, légère excellente pour la santé (très pauvre en cholestérol) et parfaite pour vos kedjénous, soupes ou grillades du week-end.</p>
+            <ul style="margin-left: 18px;">
+                <li><b>Fraîcheur garantie :</b> Abattu la veille et conservé entre 0°C et +4°C.</li>
+                <li><b>Hygiène :</b> Nettoyé et conditionné sous vide en atelier propre.</li>
+                <li><b>Livraison :</b> Rapide et sécurisée.</li>
+                <li><b>Prêt à cuisiner :</b> Plus besoin de vous fatiguer au marché.</li>
+            </ul>
+        </div>
+
+        <div class="section-title">Catalogue & Tarifs Officiels</div>
+
+        <div class="product-card">
+            <img src="1001539056.jpg" class="product-img" alt="Un lapin pelé">
+            <div class="product-info">
+                <div class="product-name">Un lapin pelé (sans la peau)</div>
+                <div class="product-desc">Viande tendre et maigre</div>
+                <div class="price-options">
+                    <button class="btn-price" onclick="ajouterPanier('Un lapin pelé 1,8kg (8000F)', 8000)">8 000 F <span class="weight">1,8 kg</span></button>
+                    <button class="btn-price" onclick="ajouterPanier('Un lapin pelé 2,5kg (10000F)', 10000)">10 000 F <span class="weight">2,5 kg</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="1001534460.jpg" class="product-img" alt="Un lapin entier doré">
+            <div class="product-info">
+                <div class="product-name">Un lapin entier doré avec la peau</div>
+                <div class="product-desc">Idéal pour grillades</div>
+                <div class="price-options">
+                    <button class="btn-price" onclick="ajouterPanier('Un lapin doré 1,8kg (8000F)', 8000)">8 000 F <span class="weight">1,8 kg</span></button>
+                    <button class="btn-price" onclick="ajouterPanier('Un lapin doré 2,5kg (10000F)', 10000)">10 000 F <span class="weight">2,5 kg</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="1001527137.jpg" class="product-img" alt="1/2 lapin">
+            <div class="product-info">
+                <div class="product-name">1/2 Lapin</div>
+                <div class="product-desc">Format partiel</div>
+                <div class="price-options">
+                    <button class="btn-price" onclick="ajouterPanier('1/2 Lapin 1,8kg (4500F)', 4500)">4 500 F <span class="weight">1,8 kg</span></button>
+                    <button class="btn-price" onclick="ajouterPanier('1/2 Lapin 2,5kg (5000F)', 5000)">5 000 F <span class="weight">2,5 kg</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="1001527137.jpg" class="product-img" alt="4 Cuisses de lapin">
+            <div class="product-info">
+                <div class="product-name">4 Cuisses de lapin frais</div>
+                <div class="product-desc">Lot de 4 cuisses</div>
+                <div class="price-options">
+                    <button class="btn-price" onclick="ajouterPanier('4 Cuisses de lapin (4500F)', 4500)">4 500 F <span class="weight">Lot</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <img src="1001525002.jpg" class="product-img" alt="Découpes en morceaux">
+            <div class="product-info">
+                <div class="product-name">Découpes en morceaux pour clients pressés</div>
+                <div class="product-desc">Frais de découpe</div>
+                <div class="price-options">
+                    <button class="btn-price" onclick="ajouterPanier('Découpe en morceaux (+200F)', 200)">+ 200 F <span class="weight">Option</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box" style="background: #fdf2f8; border-left: 4px solid #db2777; padding: 15px; margin: 20px 0; border-radius: 8px; font-size: 13px; line-height: 1.6;">
+            <p style="font-weight: bold; margin-bottom: 8px; color: #9d174d;">* Notes importantes :</p>
+            <ul style="margin-left: 18px; margin-bottom: 8px;">
+                <li>Pour garantir la disponibilité du produit et respecter le délai de livraison, nous vous conseillons de passer votre commande <b>24 heures à l'avance</b> (soit 12 heures le jour précédent la livraison) par WhatsApp au numéro indiqué ou par courriel.</li>
+                <li>Les frais de livraison s'élèvent à <b>1 500 F et plus en fonction de la distance</b>.</li>
+                <li>Les livraisons se font uniquement de <b>8 H À 19 H</b>.</li>
+                <li>Les jours de livraison : <b>mardi, mercredi, vendredi, samedi</b>.</li>
+                <li>☪️ <b>HALAL :</b> L'abattage de nos lapins suit un rite islamique permettant à toute personne de le consommer en toute confiance.</li>
+                <li>Vous souhaitez tester pour ce week-end ? N'hésitez donc pas à nous contacter pour passer votre commande. 👈</li>
+            </ul>
+            <p style="margin-top: 8px; font-size: 12px; color: #6b7280; font-style: italic;">Politique d'annulation : Annulation possible seulement 24h après si vous ne recevez pas votre commande.</p>
+        </div>
+
+        <div class="cart-box">
+            <div style="font-weight:bold; margin-bottom:8px; color:#b45309;">🛒 Votre Panier</div>
+            <div id="liste-panier">Aucun article sélectionné.</div>
+            <div class="cart-total" id="total-panier">Total : 0 FCFA</div>
+        </div>
+
+        <div class="section-title">Coordonnées de Livraison</div>
+        <div class="form-group">
+            <label>Nom et Prénom <span style="color:red;">*</span> :</label>
+            <input type="text" id="client-nom" placeholder="Ex: Kouassi Jean" required>
+        </div>
+        <div class="form-group">
+            <label>Numéro de Téléphone Principal <span style="color:red;">*</span> :</label>
+            <input type="tel" id="client-tel" placeholder="Ex: 0700000000" required>
+        </div>
+        <div class="form-group">
+            <label>Second Numéro de Téléphone <span style="font-size:11px; color:#6b7280; font-weight:normal;">(Au cas où le premier ne passe pas)</span> :</label>
+            <input type="tel" id="client-tel-secours" placeholder="Ex: 0500000000 (Optionnel)">
+        </div>
+        <div class="form-group">
+            <label>Commune de livraison <span style="color:red;">*</span> :</label>
+            <select id="commune-livraison" onchange="calculerTotal()" required>
+                <option value="0">-- Choisir votre commune (Obligatoire) --</option>
+                <option value="1500">Abobo - 1 500 F</option>
+                <option value="2000">Anyama - 2 000 F</option>
+                <option value="2000">Cocody - 2 000 F</option>
+                <option value="2500">Yopougon - 2 500 F</option>
+                <option value="2500">Plateau / Adjamé - 2 500 F</option>
+            </select>
+        </div>
+
+        <div class="form-group" style="display:flex; align-items:center; gap:8px;">
+            <input type="checkbox" id="promo-livraison" onchange="calculerTotal()" style="width:20px; height:20px;">
+            <label for="promo-livraison" style="margin-bottom:0; cursor:pointer;">🎁 Appliquer une réduction de 500F sur la livraison</label>
+        </div>
+
+        <button class="btn-wa" onclick="validerCommandeWhatsApp()">
+            💬 Valider et commander sur WhatsApp
+        </button>
+
+        <div class="dashboard">
+            <div class="section-title" style="margin-top:0;">📊 Suivi des Commandes & Gestion</div>
+            <div class="tabs">
+                <button class="tab-btn active" id="btn-tab-en-cours" onclick="changerOnglet('en-cours')">En cours de livraison</button>
+                <button class="tab-btn" id="btn-tab-livrees" onclick="changerOnglet('livrees')">Commandes Livrées</button>
+            </div>
+            <div id="zone-commandes"></div>
+        </div>
+
+        <div class="admin-toggle">
+            <button onclick="verifierAccesFournisseurs()" style="background: #374151; color: white; border: none; padding: 10px 16px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer;">
+                🔒 Espace Fournisseurs & Approvisionnements (Accès Vendeur)
+            </button>
+        </div>
+    </div>
+
+    <!-- VUE FOURNISSEUR EXCLUSIVE -->
+    <div id="vue-fournisseur-exclusive">
+        <h1 style="color: #ea580c; margin-bottom: 5px;">🌱 ESPACE FOURNISSEUR - TOP-LAPIN</h1>
+        <div class="subtitle" style="margin-bottom: 15px;">Interface réservée aux éleveurs partenaires</div>
+        <div class="info-box" style="background: #fff7ed; border-left: 4px solid #ea580c; color: #9a3412;">
+            Bienvenue sur votre portail fournisseur TOP-LAPIN. Retrouvez ci-dessous les informations relatives à vos livraisons et plannings d'approvisionnement validés par la direction.
+        </div>
+        <div class="section-title">📅 Planning & Commandes d'Approvisionnement</div>
+        <div id="fournisseur-planning-liste">
+            <p style="text-align: center; color: #6b7280; font-size: 13px; padding: 20px;">Aucune commande d'approvisionnement active en attente.</p>
+        </div>
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="?" style="color: #ea580c; font-size: 13px; text-decoration: underline; font-weight: bold;">Retour à l'accueil</a>
+        </div>
+    </div>
+
+    <!-- PANNEAU VENDEUR INTERNE -->
+    <div id="admin-panel" class="admin-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3 style="color:#ea580c; font-size:16px;">🌱 Gestion des Fournisseurs & Achats</h3>
+            <button onclick="fermerEspaceFournisseurs()" style="background:none; border:none; font-size:16px; font-weight:bold; cursor:pointer; color:#6b7280;">✕</button>
+        </div>
+
+        <div style="background:white; padding:12px; border-radius:8px; border:1px solid #fed7aa; margin-bottom:15px;">
+            <h4 style="font-size:14px; color:#c2410c; margin-bottom:8px;">1. Ajouter un fournisseur / éleveur</h4>
+            <div class="form-group"><input type="text" id="fournisseur-nom" placeholder="Nom de l'éleveur / Ferme"></div>
+            <div class="form-group"><input type="tel" id="fournisseur-tel" placeholder="Numéro WhatsApp / Téléphone"></div>
+            <div class="form-group"><input type="text" id="fournisseur-lieu" placeholder="Localisation (ex: Songon, Anyama...)"></div>
+            <button onclick="ajouterFournisseur()" style="background:#ea580c; color:white; border:none; padding:8px 14px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; width:100%;">Enregistrer l'éleveur</button>
+        </div>
+
+        <div style="background:white; padding:12px; border-radius:8px; border:1px solid #fed7aa; margin-bottom:15px;">
+            <h4 style="font-size:14px; color:#c2410c; margin-bottom:8px;">2. Enregistrer une commande d'achat (Approvisionnement)</h4>
+            <div class="form-group">
+                <select id="select-fournisseur">
+                    <option value="">-- Choisir l'éleveur --</option>
+                </select>
+            </div>
+            <div class="form-group"><input type="text" id="achat-details" placeholder="Détail (ex: 20 lapins vivants de 2kg)"></div>
+            <div class="form-group"><input type="number" id="achat-montant" placeholder="Montant total payé à l'achat (FCFA)"></div>
+            <button onclick="ajouterAchat()" style="background:#2563eb; color:white; border:none; padding:8px 14px; border-radius:6px; font-weight:bold; font-size:13px; cursor:pointer; width:100%;">Enregistrer cet achat</button>
+        </div>
+
+        <div style="background:white; padding:12px; border-radius:8px; border:1px solid #fed7aa;">
+            <h4 style="font-size:14px; color:#c2410c; margin-bottom:8px;">3. Suivi & Marge Commerciale</h4>
+            <div id="resume-marge" style="font-size:13px; color:#374151; line-height:1.6;"></div>
+        </div>
+        
+        <div style="margin-top:15px;" id="liste-fournisseurs-achats"></div>
+    </div>
 </div>
-​<!-- CATALOGUE OFFICIEL -->
-<div class="section-title">Catalogue & Tarifs Officiels</div>
-<div id="catalogue">
-<div class="product-card">
-<div><strong>Lapin Entier (1,5 kg)</strong>
-<small style="color: #78716c;">Format standard (7.000F)</small></div>
-<button class="btn" onclick="ajouterAuPanier('Lapin Entier 1.5kg', 7000)">Ajouter (7k)</button>
-</div>
-<div class="product-card">
-<div><strong>Lapin Pelé (sans la peau)</strong>
-<small style="color: #78716c;">1,8kg (8.000F) ou 2,5kg (10.000F)</small></div>
-<div style="display: flex; gap: 5px;">
-<button class="btn" onclick="ajouterAuPanier('Lapin Pelé 1.8kg', 8000)">1,8kg (8k)</button>
-<button class="btn" onclick="ajouterAuPanier('Lapin Pelé 2.5kg', 10000)">2,5kg (10k)</button>
-</div>
-</div>
-<div class="product-card">
-<div><strong>Lapin Entier Doré (avec peau)</strong>
-<small style="color: #78716c;">1,8kg (8.000F) ou 2,5kg (10.000F)</small></div>
-<div style="display: flex; gap: 5px;">
-<button class="btn" onclick="ajouterAuPanier('Lapin Doré 1.8kg', 8000)">1,8kg (8k)</button>
-<button class="btn" onclick="ajouterAuPanier('Lapin Doré 2.5kg', 10000)">2,5kg (10k)</button>
-</div>
-</div>
-<div class="product-card">
-<div><strong>1/2 Lapin</strong>
-<small style="color: #78716c;">Format partiel (4.500F / 5.000F)</small></div>
-<div style="display: flex; gap: 5px;">
-<button class="btn" onclick="ajouterAuPanier('1/2 Lapin (1.8kg)', 4500)">1,8kg (4.5k)</button>
-<button class="btn" onclick="ajouterAuPanier('1/2 Lapin (2.5kg)', 5000)">2,5kg (5k)</button>
-</div>
-</div>
-<div class="product-card">
-<div><strong>4 Cuisses de Lapin frais</strong>
-<small style="color: #78716c;">4.500 FCFA</small></div>
-<button class="btn" onclick="ajouterAuPanier('4 Cuisses de Lapin', 4500)">Ajouter</button>
-</div>
-<div class="product-card">
-<div><strong>Découpes en morceaux</strong>
-<small style="color: #78716c;">+200F de frais de découpe</small></div>
-<button class="btn" onclick="ajouterAuPanier('Option Découpes en morceaux', 200)">Ajouter (+200F)</button>
-</div>
-</div>
-​<!-- PANIER -->
-<div class="section-title">Mon Panier</div>
-<div id="listePanier" style="margin-bottom: 15px; color: #78716c; font-size: 14px; background: #fffbeb; padding: 12px; border-radius: 8px; border: 1px solid #fde68a;">Votre panier est vide.</div>
-​<!-- LIVRAISON & COMMUNE -->
-<div class="section-title">Lieu de Livraison</div>
-<select id="commune" onchange="mettreAJourTotal()">
-<option value="1500">Yopougon / Songon / Abobo / Adjamé (1.500 F)</option>
-<option value="2000">Anyama (2.000 F)</option>
-<option value="2000">Cocody / Bingerville (2.000 F)</option>
-<option value="2000">Treichville à Port-Bouët (2.000 F)</option>
-<option value="2500">Grand-Bassam (2.500 F)</option>
-</select>
-​<!-- OPTION RÉDUCTION LIVRAISON VENDEUR -->
-<div style="background: #fffbeb; padding: 12px; border-radius: 8px; border: 1px dashed #f59e0b; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
-<div>
-<strong style="font-size: 13px; color: #92400e; display: block;">🎁 Réduction Livraison (-500 F)</strong>
-<small style="color: #78716c; font-size: 12px;">Appliquer une promo de 500F sur le transport</small>
-</div>
-<input type="checkbox" id="checkReducLivraison" onchange="mettreAJourTotal()" style="width: 22px; height: 22px; cursor: pointer; margin-bottom: 0;">
-</div>
-​<!-- CODE PROMO -->
-<div style="background: #fffbeb; padding: 12px; border-radius: 8px; border: 1px dashed #fde68a; margin-bottom: 15px;">
-<label style="font-size: 13px; font-weight: bold; color: #92400e; display: block; margin-bottom: 5px;">Avez-vous un code promo ?</label>
-<div style="display: flex; gap: 8px;">
-<input type="text" id="inputPromo" placeholder="Ex: TOP10" style="margin-bottom:0; text-transform:uppercase;">
-<button class="btn" onclick="appliquerPromo()" style="padding: 8px 15px;">Appliquer</button>
-</div>
-<small id="messagePromo" style="display: block; margin-top: 5px;"></small>
-</div>
-​<!-- MODE DE PAIEMENT -->
-<div class="section-title">Mode de Paiement</div>
-<select id="modePaiement" style="margin-bottom: 15px;">
-<option value="Paiement à la réception (Espèces / Mobile Money)">💵 Paiement à la réception (Espèces / Mobile Money)</option>
-<option value="Wave Direct">🔵 Wave Direct</option>
-<option value="Orange Money">🟠 Orange Money</option>
-<option value="MTN MoMo">🟡 MTN MoMo</option>
-</select>
-​<!-- INFOS CLIENT -->
-<div class="section-title">Vos Coordonnées de Livraison</div>
-<input type="text" id="nomClient" placeholder="Nom et Prénom">
-<input type="tel" id="telClient" placeholder="Numéro de téléphone (ex: 07XXXXXXXX)">
-<input type="text" id="adresseClient" placeholder="Adresse précise / Quartier / Repère (ex: Angré 8e Tranche...)">
-​<!-- TOTAL -->
-<div class="total-box" id="affichageTotal">Total : 0 FCFA</div>
-​<!-- BOUTONS COMMANDE & ANNULATION -->
-<button class="btn btn-wa" onclick="validerEtCommander()" style="width: 100%; padding: 15px; font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-💬 Valider et envoyer la commande sur WhatsApp
-</button>
-<button class="btn btn-danger" onclick="annulerCommandeClient()" style="width: 100%; padding: 10px; font-size: 14px; margin-bottom: 15px;">
-❌ Annuler mon panier
-</button>
-​<!-- ASSISTANCE CLIENT WHATSAPP -->
-<div style="text-align: center; margin: 20px 0; padding-top: 10px; border-top: 1px solid #fef3c7;">
-<a href="https://wa.me/2250700000000?text=Bonjour,%20j'ai%20besoin%20d'aide%20concernant%20ma%20commande%20PayLap%20Top-Lapin." target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 10px 18px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(37,211,102,0.3);">
-💬 Besoin d'aide ? Contactez l'assistance WhatsApp
-</a>
-</div>
-​<!-- TABLEAU DE BORD VENDEUR -->
-<div class="dashboard">
-<h2 style="color: #92400e; font-size: 18px; margin-bottom: 15px;">📊 Tableau de Bord Vendeur</h2>
-<div class="ca-card">
-<div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">💰 Chiffre d'Affaires du Jour</div>
-<div id="caJourMontant" style="font-size: 26px; font-weight: bold;">0 FCFA</div>
-<small id="caJourDate" style="opacity: 0.8; font-size: 12px;"></small>
-</div>
-<div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-<button class="btn btn-blue" onclick="exporterCommandesCSV()" style="flex: 1; padding: 10px;">
-📥 Télécharger rapport Excel/CSV
-</button>
-</div>
-<div style="background: #fffbeb; padding: 12px; border-radius: 8px; border: 1px solid #fde68a; margin-bottom: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
-<div style="flex: 1; min-width: 180px;">
-<label style="font-size: 12px; font-weight: bold; color: #92400e; display: block; margin-bottom: 4px;">Filtrer par commune :</label>
-<select id="filtreCommune" onchange="filtrerCommandes()" style="margin-bottom:0; padding: 6px;">
-<option value="TOUTES">Toutes les communes</option>
-<option value="Yopougon">Yopougon</option>
-<option value="Songon">Songon</option>
-<option value="Abobo">Abobo</option>
-<option value="Adjamé">Adjamé</option>
-<option value="Anyama">Anyama</option>
-<option value="Cocody">Cocody</option>
-<option value="Bingerville">Bingerville</option>
-<option value="Treichville">Treichville à Port-Bouët</option>
-<option value="Grand-Bassam">Grand-Bassam</option>
-</select>
-</div>
-<div style="flex: 1; min-width: 180px;">
-<label style="font-size: 12px; font-weight: bold; color: #92400e; display: block; margin-bottom: 4px;">Filtrer par date :</label>
-<input type="date" id="filtreDate" onchange="filtrerCommandes()" style="margin-bottom:0; padding: 5px;">
-</div>
-</div>
-<!-- LISTE DES COMMANDES VENDEUR -->
-<div id="listeCommandesVendeur">
-<p style="color: #78716c; font-size: 14px; text-align: center; padding: 15px;">Aucune commande enregistrée pour le moment.</p>
-</div>
-</div>
-</div>
-​<script>
-let panier = [];
-let montantReduction = 0;
-let listeCommandes = JSON.parse(localStorage.getItem('topLapinCommandes')) || [];
-​function ajouterAuPanier(nom, prix) {
-let article = panier.find(item => item.nom === nom);
-if (article) {
-article.qte += 1;
-} else {
-panier.push({ nom: nom, prix: prix, qte: 1 });
-}
-mettreAJourPanier();
-}
-​function supprimerArticle(index) {
-panier.splice(index, 1);
-mettreAJourPanier();
-}
-​function mettreAJourPanier() {
-const container = document.getElementById('listePanier');
-if (panier.length === 0) {
-container.innerHTML = "Votre panier est vide.";
-mettreAJourTotal();
-return;
-}
-let html = "";
-panier.forEach((item, index) => {
-html += <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; border-bottom:1px solid #fde68a; padding-bottom:4px;"> <span><strong>${item.nom}</strong> x${item.qte}</span> <span>${(item.prix * item.qte).toLocaleString('fr-FR')} F <button onclick="supprimerArticle(${index})" style="color:#ef4444; border:none; background:none; cursor:pointer; font-weight:bold; margin-left:8px;">❌</button></span> </div>;
-});
-container.innerHTML = html;
-mettreAJourTotal();
-}
-​function obtenirFraisLivraison() {
-const selectCommune = document.getElementById('commune');
-let frais = Number(selectCommune.value);
-const checkReduc = document.getElementById('checkReducLivraison');
-if (checkReduc && checkReduc.checked) {
-frais -= 500;
-if (frais < 0) frais = 0;
-}
-return frais;
-}
-​function appliquerPromo() {
-const code = document.getElementById('inputPromo').value.trim().toUpperCase();
-const msg = document.getElementById('messagePromo');
-const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.qte), 0);
-if (code === "TOP10") {
-montantReduction = sousTotal * 0.10;
-msg.style.color = "#10b981";
-msg.innerText = "✅ Code promo appliqué : -10%";
-} else if (code === "LAPIN500") {
-montantReduction = 500;
-msg.style.color = "#10b981";
-msg.innerText = "✅ Code promo appliqué : -500 FCFA";
-} else {
-montantReduction = 0;
-msg.style.color = "#ef4444";
-msg.innerText = "❌ Code promo invalide";
-}
-mettreAJourTotal();
-}
-​function mettreAJourTotal() {
-const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.qte), 0);
-const frais = obtenirFraisLivraison();
-let total = (sousTotal + frais) - montantReduction;
-if (total < 0) total = 0;
-let texteFrais = frais > 0 ?  (dont ${frais} F livraison) : " (Livraison offerte/réduite)";
-document.getElementById('affichageTotal').innerText = Total : ${total.toLocaleString('fr-FR')} FCFA${texteFrais};
-}
-​function validerEtCommander() {
-if (panier.length === 0) {
-alert("Votre panier est vide ! Veuillez ajouter au moins un article.");
-return;
-}
-const nom = document.getElementById('nomClient').value.trim();
-const tel = document.getElementById('telClient').value.trim();
-const adresse = document.getElementById('adresseClient').value.trim();
-const modePaiement = document.getElementById('modePaiement').value;
-​if (!nom || !tel) {
-alert("Veuillez renseigner votre nom et votre numéro de téléphone.");
-return;
-}
-​const sousTotal = panier.reduce((sum, item) => sum + (item.prix * item.qte), 0);
-const frais = obtenirFraisLivraison();
-let total = (sousTotal + frais) - montantReduction;
-if (total < 0) total = 0;
-​const selectCommune = document.getElementById('commune');
-const texteCommune = selectCommune.options[selectCommune.selectedIndex].text;
-const communeNom = texteCommune.split('(')[0].trim();
-const aujourdhui = new Date().toISOString().split('T')[0];
-​const nouvelleCommande = {
-id: Date.now(),
-nom: nom,
-telephone: tel,
-adresse: adresse || "Non spécifiée",
-commune: communeNom,
-fraisLivraison: frais,
-total: total,
-articles: [...panier],
-moyenPaiement: modePaiement,
-date: aujourdhui,
-statut: "En attente"
-};
-​listeCommandes.push(nouvelleCommande);
-localStorage.setItem('topLapinCommandes', JSON.stringify(listeCommandes));
-jouerSonNotification();
-​let detailsArticles = "";
-panier.forEach(item => {
-detailsArticles += • ${item.nom} (x${item.qte}) - ${item.prix * item.qte} F%0A;
-});
-​let message = 🐰 *NOUVELLE COMMANDE TOP-LAPIN*%0A%0A;
-message += 👤 *Client :* ${nom}%0A;
-message += 📞 *Téléphone :* ${tel}%0A;
-message += 📍 *Commune :* ${communeNom}%0A;
-message += 🏠 *Adresse / Repère :* ${adresse || "Non spécifiée"}%0A;
-message += 💳 *Paiement :* ${modePaiement}%0A;
-message += 🛵 *Frais de livraison :* ${frais} F%0A;
-message += -----------------------------------%0A;
-message += *Détail du panier :*%0A${detailsArticles};
-message += -----------------------------------%0A;
-message += 💰 *TOTAL À PAYER :* *${total.toLocaleString('fr-FR')} FCFA*%0A;
-message += ⚡ _Commande générée via l'application PayLap Top-Lapin_;
-​const numeroVendeur = "2250700000000"; // Mettez votre numéro WhatsApp pro ici
-window.open(https://wa.me/${numeroVendeur}?text=${message}, '_blank');
-​panier = [];
-montantReduction = 0;
-document.getElementById('inputPromo').value = "";
-document.getElementById('messagePromo').innerText = "";
-const checkReduc = document.getElementById('checkReducLivraison');
-if (checkReduc) checkReduc.checked = false;
-mettreAJourPanier();
-rafraichirTableauBord();
-}
-​function annulerCommandeClient() {
-if (confirm("Voulez-vous vider votre panier actuel ?")) {
-panier = [];
-montantReduction = 0;
-document.getElementById('inputPromo').value = "";
-document.getElementById('messagePromo').innerText = "";
-const checkReduc = document.getElementById('checkReducLivraison');
-if (checkReduc) checkReduc.checked = false;
-mettreAJourPanier();
-alert("Panier annulé.");
-}
-}
-​function changerStatutCommande(idCommande, nouveauStatut) {
-const cmd = listeCommandes.find(c => c.id === idCommande);
-if (cmd) {
-cmd.statut = nouveauStatut;
-localStorage.setItem('topLapinCommandes', JSON.stringify(listeCommandes));
-rafraichirTableauBord();
-}
-}
-​function mettreAJourCA() {
-const aujourdhui = new Date().toISOString().split('T')[0];
-const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
-const dateLisible = new Date().toLocaleDateString('fr-FR', optionsDate);
-document.getElementById('caJourDate').innerText = Date : ${dateLisible};
-const duJour = listeCommandes.filter(c => c.date === aujourdhui);
-const totalCA = duJour.reduce((sum, c) => sum + c.total, 0);
-document.getElementById('caJourMontant').innerText = totalCA.toLocaleString('fr-FR') + " FCFA";
-}
-​function afficherCommandesVendeur(commandesAffichees) {
-const container = document.getElementById('listeCommandesVendeur');
-if (commandesAffichees.length === 0) {
-container.innerHTML = <p style="color: #78716c; font-size: 14px; text-align: center; padding: 15px;">Aucune commande correspondante.</p>;
-return;
-}
-let html = "";
-commandesAffichees.slice().reverse().forEach(cmd => {
-let classeBadge = "badge-attente";
-if (cmd.statut === "En cours") classeBadge = "badge-cours";
-if (cmd.statut === "Livrée") classeBadge = "badge-livree";
-let details = "";
-if (cmd.articles) {
-cmd.articles.forEach(art => {
-details += • ${art.nom} (x${art.qte})<br>;
-});
-}
-html += <div style="background:#fffbeb; border:1px solid #fde68a; padding:15px; border-radius:10px; margin-bottom:12px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);"> <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"> <strong>#${cmd.id.toString().slice(-4)} - ${cmd.nom}</strong> <span class="badge ${classeBadge}">${cmd.statut || "En attente"}</span> </div> <div style="font-size:13px; color:#57534e; margin-bottom:8px;"> 📞 Tél : <a href="tel:${cmd.telephone}">${cmd.telephone}</a><br> 📍 Commune : <strong>${cmd.commune}</strong><br> 🏠 Adresse : ${cmd.adresse}<br> 💳 Paiement : <strong>${cmd.moyenPaiement}</strong><br> 🛒 Articles :<div style="margin-left:10px; color:#1f2937;">${details}</div> 💰 Total : <strong>${cmd.total.toLocaleString('fr-FR')} FCFA</strong> (${cmd.date}) </div> <div style="display:flex; gap:6px; flex-wrap:wrap; border-top:1px solid #fef3c7; padding-top:8px;"> <button onclick="changerStatutCommande(${cmd.id}, 'En cours')" style="background:#f59e0b; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:11px; font-weight:bold; cursor:pointer;">⏳ En cours</button> <button onclick="changerStatutCommande(${cmd.id}, 'Livrée')" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:4px; font-size:11px; font-weight:bold; cursor:pointer;">✅ Livrée</button> </div> </div>;
-});
-container.innerHTML = html;
-}
-​function filtrerCommandes() {
-const communeSel = document.getElementById('filtreCommune').value;
-const dateSel = document.getElementById('filtreDate').value;
-const filtres = listeCommandes.filter(cmd => {
-const matchCommune = (communeSel === "TOUTES" || cmd.commune === communeSel);
-const matchDate = (!dateSel || cmd.date === dateSel);
-return matchCommune && matchDate;
-});
-afficherCommandesVendeur(filtres);
-}
-​function exporterCommandesCSV() {
-if (listeCommandes.length === 0) { alert("Aucune commande à exporter."); return; }
-let csv = "\uFEFFID;Client;Telephone;Commune;Adresse;Paiement;Total (FCFA);Statut;Date\n";
-listeCommandes.forEach(c => {
-csv += ${c.id};"${c.nom}";"${c.telephone}";"${c.commune}";"${c.adresse}";"${c.moyenPaiement}";${c.total};"${c.statut}";${c.date}\n;
-});
-const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-const link = document.createElement("a");
-link.href = URL.createObjectURL(blob);
-link.download = Rapport_PayLap_${new Date().toISOString().split('T')[0]}.csv;
-link.click();
-}
-​function jouerSonNotification() {
-try {
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const osc = audioCtx.createOscillator();
-const gain = audioCtx.createGain();
-osc.type = 'sine';
-osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.5);
-osc.connect(gain);
-gain.connect(audioCtx.destination);
-osc.start();
-osc.stop(audioCtx.currentTime + 0.5);
-} catch (e) {
-console.log("Audio non pris en charge.");
-}
-}
-​function rafraichirTableauBord() {
-mettreAJourCA();
-filtrerCommandes();
-}
-​setInterval(() => {
-let stockActuel = JSON.parse(localStorage.getItem('topLapinCommandes')) || [];
-if (stockActuel.length !== listeCommandes.length) {
-listeCommandes = stockActuel;
-rafraichirTableauBord();
-}
-}, 3000);
-​window.onload = function() {
-rafraichirTableauBord();
-};
-</script>
-</body>
-</html>
+
+<script>
+    let panier = [];
+    let commandes = JSON.parse(localStorage.getItem('top_lapin_commandes')) || [];
+    let fournisseurs = JSON.parse(localStorage.getItem('top_lapin_fournisseurs')) || [];
+    let achats = JSON.parse(localStorage.getItem('top_lapin_achats')) || [];
+
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('role') === 'fournisseur') {
+            document.getElementById('vue-client').style.display = 'none';
+            document.getElementById('vue-fournisseur-exclusive').style.display = 'block';
+            afficherPlanningFournisseur();
+        } else {
+            renderCommandes();
+        }
+    };
+
+    function ajouterPanier(nom, prix) {
+        panier.push({nom, prix});
+        afficherPanier();
+    }
+
+    function afficherPanier() {
+        let listeDiv = document.getElementById('liste-panier');
+        if (panier.length === 0) {
+            listeDiv.innerHTML = "Aucun article sélectionné.";
+            document.getElementById('total-panier').innerText = "Total : 0 FCFA";
+            return;
+        }
+        let html = "";
+        panier.forEach((item, index) => {
+            html += `<div class="cart-item"><span>${item.nom}</span> <span>${item.prix} F <button onclick="supprimerArticle(${index})" style="color:red;border:none;background:none;cursor:pointer;margin-left:5px;">✕</button></span></div>`;
+        });
+        listeDiv.innerHTML = html;
+        calculerTotal();
+    }
+
+    function supprimerArticle(index) {
+        panier.splice(index, 1);
+        afficherPanier();
+    }
+
+    function calculerTotal() {
+        let sousTotal = panier.reduce((sum, item) => sum + item.prix, 0);
+        let fraisLivraison = parseInt(document.getElementById('commune-livraison').value) || 0;
+        
+        if (document.getElementById('promo-livraison').checked && fraisLivraison >= 500) {
+            fraisLivraison -= 500;
+        }
+
+        let total = sousTotal + fraisLivraison;
+       
