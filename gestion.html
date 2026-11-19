@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FACC15" />
+  <title>TOP-LAPIN — Gestion PayLap</title>
+  <style>
+    :root {
+      --bg: #FFFBEB;
+      --surface: #FFFFFF;
+      --yellow: #FACC15;
+      --yellow-deep: #EAB308;
+      --ink: #1C1917;
+      --muted: #57534E;
+      --border: #FDE68A;
+      --ok: #15803D;
+      --danger: #B91C1C;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.45;
+      padding: 14px;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto 48px;
+    }
+
+    header {
+      background: var(--yellow);
+      border: 2px solid var(--yellow-deep);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #D6D3D1;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      background: #FFFFFF;
+      color: var(--ink);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--yellow);
+      color: var(--ink);
+      border: 1.5px solid var(--yellow-deep);
+    }
+
+    .btn-dark {
+      background: var(--ink);
+      color: #FFFFFF;
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: var(--ink);
+      border: 1.5px solid #D6D3D1;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .kpi-box {
+      background: #FEFCE8;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .kpi-val {
+      font-size: 1.15rem;
+      font-weight: 900;
+      margin-top: 4px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid #E7E5E4;
+      padding: 8px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #FEF9C3;
+      font-weight: 800;
+    }
+
+    .msg-error {
+      color: var(--danger);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .msg-ok {
+      color: var(--ok);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>TOP-LAPIN — Gestion Privée</h1>
+        <div style="font-size: 0.84rem; font-weight: 600;">Commandes, CA journalier, export CSV &amp; fournisseurs</div>
+      </div>
+      <button type="button" class="btn btn-dark" id="lockBtn" style="display: none;" onclick="lockManagement()">
+        Verrouiller
+      </button>
+    </header>
+
+    <!-- ÉCRAN DE CONNEXION -->
+    <section class="card" id="authCard">
+      <h2>Authentification gestionnaire</h2>
+      <label for="accessCodeInput">Code d'accès privé</label>
+      <input type="password" id="accessCodeInput" placeholder="Entrez votre code d'accès" />
+      <button type="button" class="btn btn-primary" onclick="verifyAccess()">Déverrouiller l'espace gestion</button>
+      <div id="authError" class="msg-error"></div>
+    </section>
+
+    <!-- ESPACE GESTION PROTÉGÉ -->
+    <div id="mgmtPanel" style="display: none;">
+      <section class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+          <h2 style="margin-bottom: 0;">Tableau de bord &amp; Commandes</h2>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-outline" onclick="loadOrders()">Actualiser</button>
+            <button type="button" class="btn btn-primary" onclick="exportOrdersCsv()">Exporter CSV</button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-box">
+            <div class="kpi-label">CA journalier (commandes livrées)</div>
+            <div class="kpi-val" id="dailyRevenueVal">0 FCFA</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">Nombre de commandes</div>
+            <div class="kpi-val" id="ordersCountVal">0</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-label">En attente / En livraison</div>
+            <div class="kpi-val" id="activeOrdersCountVal">0</div>
+          </div>
+        </div>
+
+        <div id="mgmtStatusMsg" class="msg-ok"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Réf</th>
+                <th>Client &amp; Tél</th>
+                <th>Zone / Commune</th>
+                <th>Articles</th>
+                <th>Total</th>
+                <th>Statut</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Espace Fournisseurs</h2>
+        <div id="suppliersStatus" style="font-size: 0.9rem; color: var(--muted); margin-bottom: 10px;">
+          Vérification de l'accès fournisseur...
+        </div>
+        <div class="grid-2" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+          <input type="text" id="supplierName" placeholder="Nom de l'éleveur / fournisseur" />
+          <input type="text" id="supplierZone" placeholder="Zone (ex. Anyama, Songon, Bingerville)" />
+          <input type="number" id="supplierQty" placeholder="Quantité disponible (têtes)" />
+          <input type="number" id="supplierPrice" placeholder="Prix unitaire (FCFA)" />
+        </div>
+        <button type="button" class="btn btn-dark" onclick="addSupplierEntry()">Enregistrer le lot fournisseur</button>
+        <div id="supplierFeedback" class="msg-ok"></div>
+        <div id="suppliersList" style="margin-top: 12px; font-size: 0.88rem;"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const AUTH_KEY = 'toplapin_mgmt_code';
+    const LOCAL_ORDERS_KEY = 'toplapin_paylap_orders_v1';
+    const SUPPLIERS_KEY = 'toplapin_suppliers_v1';
+    let currentOrders = [];
+
+    function formatFcfa(n) {
+      return `${Number(n || 0).toLocaleString('fr-FR')} FCFA`;
+    }
+
+    function getCode() {
+      return sessionStorage.getItem(AUTH_KEY) || '';
+    }
+
+    async function verifyAccess() {
+      const code = document.getElementById('accessCodeInput').value.trim();
+      const errEl = document.getElementById('authError');
+      errEl.textContent = '';
+
+      if (!code) {
+        errEl.textContent = 'Veuillez saisir un code d’accès.';
+        return;
+      }
+
+      sessionStorage.setItem(AUTH_KEY, code);
+      document.getElementById('authCard').style.display = 'none';
+      document.getElementById('mgmtPanel').style.display = 'block';
+      document.getElementById('lockBtn').style.display = 'inline-flex';
+
+      await verifySupplierSession(code);
+      await loadOrders();
+      renderSuppliers();
+    }
+
+    function lockManagement() {
+      sessionStorage.removeItem(AUTH_KEY);
+      document.getElementById('accessCodeInput').value = '';
+      document.getElementById('mgmtPanel').style.display = 'none';
+      document.getElementById('lockBtn').style.display = 'none';
+      document.getElementById('authCard').style.display = 'block';
+    }
+
+    async function verifySupplierSession(code) {
+      const el = document.getElementById('suppliersStatus');
+      try {
+        const res = await fetch('/.netlify/functions/verifier-fournisseur', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          el.textContent = 'Accès fournisseur validé côté serveur.';
+          el.style.color = '#15803D';
+          return;
+        }
+      } catch {}
+      el.textContent = 'Mode local / en attente de configuration serveur pour les fournisseurs.';
+      el.style.color = '#57534E';
+    }
+
+    async function loadOrders() {
+      const code = getCode();
+      const msgEl = document.getElementById('mgmtStatusMsg');
+      msgEl.textContent = '';
+
+      try {
+        const res = await fetch('/.netlify/functions/lire-commandes', {
+          method: 'GET',
+          headers: { 'x-access-code': code }
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok && Array.isArray(data.orders)) {
+          currentOrders = data.orders;
+          msgEl.textContent = 'Commandes synchronisées depuis le serveur.';
+          renderOrders();
+          return;
+        }
+      } catch {}
+
+      try {
+        currentOrders = JSON.parse(localStorage.getItem(LOCAL_ORDERS_KEY) || '[]');
+      } catch {
+        currentOrders = [];
+      }
+      msgEl.textContent = 'Affichage des commandes locales enregistrées sur cet appareil.';
+      renderOrders();
+    }
+
+    function renderOrders() {
+      const tbody = document.getElementById('ordersTableBody');
+      const todayStr = new Date().toISOString().slice(0, 10);
+
+      let dailyRevenue = 0;
+      let activeCount = 0;
+
+      for (const o of currentOrders) {
+        const isToday = String(o.createdAt || '').slice(0, 10) === todayStr;
+        if (o.status === 'Livrée' && isToday) {
+          dailyRevenue += Number(o.total || 0);
+        }
+        if (o.status === 'En attente' || o.status === 'En livraison') {
+          activeCount += 1;
+        }
+      }
+
+      document.getElementById('dailyRevenueVal').textContent = formatFcfa(dailyRevenue);
+      document.getElementById('ordersCountVal').textContent = String(currentOrders.length);
+      document.getElementById('activeOrdersCountVal').textContent = String(activeCount);
+
+      if (currentOrders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6">Aucune commande enregistrée.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = currentOrders
+        .map((o) => {
+          const statuses = ['En attente', 'En livraison', 'Livrée', 'Annulée'];
+          const optionsHtml = statuses
+            .map((st) => `<option value="${st}" ${o.status === st ? 'selected' : ''}>${st}</option>`)
+            .join('');
+
+          return `
+            <tr>
+              <td><strong>${escapeHtml(o.id)}</strong></td>
+              <td>
+                ${escapeHtml(o.clientName)}<br />
+                <span>${escapeHtml(o.phone)}</span>${o.phone2 ? `<br /><span>${escapeHtml(o.phone2)}</span>` : ''}
+              </td>
+              <td>${escapeHtml(o.zone)} — ${escapeHtml(o.commune)}</td>
+              <td>${escapeHtml(o.itemsSummary)}</td>
+              <td><strong>${formatFcfa(o.total)}</strong></td>
+              <td>
+                <select onchange="changeOrderStatus('${escapeHtml(o.id)}', this.value)" style="margin-bottom:0; padding:6px;">
+                  ${optionsHtml}
+                </select>
+              </td>
+            </tr>
+          `;
+        })
+        .join('');
+    }
+
+    async function changeOrderStatus(orderId, newStatus) {
+      const code = getCode();
+      const target = currentOrders.find((o) => o.id === orderId);
+      if (target) {
+        target.status = newStatus;
+      }
+      localStorage.setItem(LOCAL_ORDERS_KEY, JSON.stringify(currentOrders));
+      renderOrders();
+
+      try {
+        await fetch('/.netlify/functions/lire-commandes', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-access-code': code
+          },
+          body: JSON.stringify({ id: orderId, status: newStatus })
+        });
+      } catch {}
+    }
+
+    function exportOrdersCsv() {
+      const headers = ['ID', 'Date', 'Client', 'Telephone1', 'Telephone2', 'Zone', 'Commune', 'Articles', 'Total_FCFA', 'Statut'];
+      const rows = currentOrders.map((o) => [
+        o.id || '',
+        o.createdAt || '',
+        o.clientName || '',
+        o.phone || '',
+        o.phone2 || '',
+        o.zone || '',
+        o.commune || '',
+        o.itemsSummary || '',
+        Number(o.total || 0),
+        o.status || 'En attente'
+      ]);
+
+      const csvContent = [headers, ...rows]
+        .map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(';'))
+        .join('\n');
+
+      const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `commandes-toplapin-${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function addSupplierEntry() {
+      const name = document.getElementById('supplierName').value.trim();
+      const zone = document.getElementById('supplierZone').value.trim();
+      const qty = Number(document.getElementById('supplierQty').value || 0);
+      const price = Number(document.getElementById('supplierPrice').value || 0);
+      const fb = document.getElementById('supplierFeedback');
+
+      if (!name || !zone || qty <= 0 || price <= 0) {
+        fb.textContent = 'Renseignez le nom, la zone, la quantité et le prix du lot.';
+        fb.className = 'msg-error';
+        return;
+      }
+
+      const list = JSON.parse(localStorage.getItem(SUPPLIERS_KEY) || '[]');
+      list.unshift({
+        id: `FR-${Date.now().toString().slice(-5)}`,
+        name,
+        zone,
+        qty,
+        price,
+        date: new Date().toLocaleDateString('fr-FR')
+      });
+      localStorage.setItem(SUPPLIERS_KEY, JSON.stringify(list));
+
+      document.getElementById('supplierName').value = '';
+      document.getElementById('supplierZone').value = '';
+      document.getElementById('supplierQty').value = '';
+      document.getElementById('supplierPrice').value = '';
+      fb.textContent = 'Lot fournisseur enregistré.';
+      fb.className = 'msg-ok';
+      renderSuppliers();
+    }
+
+    function renderSuppliers() {
+      const container = document.getElementById('suppliersList');
+      const list = JSON.parse(localStorage.getItem(SUPPLIERS_KEY) || '[]');
+      if (list.length === 0) {
+        container.innerHTML = '<div style="color:#57534E;">Aucun lot fournisseur enregistré.</div>';
+        return;
+      }
+      container.innerHTML = list
+        .map((s) => `<div style="padding:6px 0; border-bottom:1px solid #E7E5E4;">• <strong>${escapeHtml(s.name)}</strong> (${escapeHtml(s.zone)}) — ${s.qty} têtes à ${formatFcfa(s.price)} (${s.date})</div>`)
+        .join('');
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    if (getCode()) {
+      document.getElementById('authCard').style.display = 'none';
+      document.getElementById('mgmtPanel').style.display = 'block';
+      document.getElementById('lockBtn').style.display = 'inline-flex';
+      verifySupplierSession(getCode());
+      loadOrders();
+      renderSuppliers();
+    }
+  </script>
+</body>
+  </html>
