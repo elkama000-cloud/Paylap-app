@@ -1,1 +1,27 @@
 
+{
+  "name": "TOP-LAPIN - PayLap",
+  "short_name": "PayLap",
+  "description": "Commande et suivi de livraison de viande de lapin frais TOP-LAPIN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFFBEB",
+  "theme_color": "#FACC15",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
