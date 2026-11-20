@@ -3,821 +3,566 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#FACC15" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
-  <title>TOP-LAPIN — PayLap (Commande)</title>
+  <title>TOP-LAPIN — Prise de commande PayLap</title>
   <style>
     :root {
-      --bg: #FFFBEB;
-      --surface: #FFFFFF;
-      --yellow: #FACC15;
-      --yellow-deep: #EAB308;
-      --yellow-soft: #FEF9C3;
-      --ink: #1C1917;
-      --muted: #57534E;
-      --border: #FDE68A;
-      --ok: #15803D;
-      --danger: #B91C1C;
+      --jaune: #FFD400;
+      --jaune-clair: #FFF9DB;
+      --bleu: #0B2D6B;
+      --bleu-fonce: #071E49;
+      --blanc: #FFFFFF;
+      --texte: #111827;
+      --gris: #6B7280;
+      --bordure: #E5E7EB;
+      --vert: #15803D;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.45;
-      padding: 14px;
-    }
-
-    .wrap {
-      max-width: 860px;
-      margin: 0 auto 48px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #F8FAFC;
+      color: var(--texte);
+      padding-bottom: 40px;
     }
 
     header {
-      background: linear-gradient(135deg, var(--yellow) 0%, #FDE047 100%);
-      border: 2px solid var(--yellow-deep);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 16px;
+      background: var(--bleu);
+      color: var(--blanc);
+      border-bottom: 5px solid var(--jaune);
+      padding: 16px;
+      text-align: center;
     }
 
-    .brand-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 6px;
+    header h1 {
+      color: var(--jaune);
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
     }
 
-    h1 {
-      font-size: 1.45rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
+    header p {
+      font-size: 0.9rem;
+      margin-top: 4px;
+      color: #E2E8F0;
     }
 
-    .badge {
-      background: var(--ink);
-      color: var(--yellow);
-      font-size: 0.78rem;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 999px;
-      text-transform: uppercase;
-    }
-
-    .subtitle {
-      font-size: 0.92rem;
-      color: var(--ink);
-      font-weight: 500;
-    }
-
-    .schedule-banner {
-      margin-top: 10px;
-      background: #FFFBEB;
-      border: 1px solid var(--yellow-deep);
-      border-radius: 10px;
-      padding: 8px 12px;
-      font-size: 0.85rem;
-      font-weight: 700;
+    .container {
+      max-width: 640px;
+      margin: 16px auto;
+      padding: 0 14px;
     }
 
     .card {
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 8px rgba(28, 25, 23, 0.04);
-    }
-
-    h2 {
-      font-size: 1.08rem;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
-    }
-
-    .product-card {
-      border: 1.5px solid #E7E5E4;
+      background: var(--blanc);
+      border: 2px solid var(--bordure);
       border-radius: 12px;
-      padding: 12px;
-      background: #FFFEFA;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(11, 45, 107, 0.06);
     }
 
-    .product-title {
+    .card-title {
+      background: var(--jaune);
+      color: var(--bleu-fonce);
       font-weight: 800;
-      font-size: 0.98rem;
-    }
-
-    .product-meta {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .product-price {
-      font-size: 1.02rem;
-      font-weight: 900;
-      color: var(--ink);
-      margin-top: 6px;
-    }
-
-    .product-controls {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .cut-check {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      background: var(--yellow-soft);
-      padding: 6px 8px;
+      font-size: 1.05rem;
+      padding: 10px 12px;
       border-radius: 8px;
-      cursor: pointer;
+      margin-bottom: 14px;
     }
 
-    .cut-check input {
-      width: auto;
-      margin: 0;
+    .catalogue-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--bordure);
     }
 
-    .qty-row {
+    .catalogue-item:last-of-type {
+      border-bottom: none;
+    }
+
+    .item-nom {
+      font-weight: 700;
+      color: var(--bleu);
+      font-size: 0.96rem;
+    }
+
+    .item-detail {
+      font-size: 0.82rem;
+      color: var(--gris);
+    }
+
+    .item-prix {
+      font-weight: 800;
+      color: var(--bleu-fonce);
+      white-space: nowrap;
+      margin-right: 8px;
+      font-size: 0.95rem;
+    }
+
+    .qty-box {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 8px;
+      gap: 6px;
     }
 
     .qty-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
-      border: 1px solid #D6D3D1;
-      background: var(--yellow);
-      font-weight: 900;
-      font-size: 1.1rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      border: 1.5px solid var(--bleu);
+      background: var(--jaune-clair);
+      color: var(--bleu);
+      font-weight: 800;
+      font-size: 1rem;
       cursor: pointer;
     }
 
     .qty-val {
-      font-weight: 800;
-      min-width: 24px;
+      min-width: 22px;
       text-align: center;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-    }
-
-    label {
-      display: block;
-      font-size: 0.88rem;
       font-weight: 700;
+    }
+
+    .option-decoupe {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: var(--jaune-clair);
+      border: 1.5px solid var(--jaune);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .option-decoupe label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--bleu-fonce);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .notes-box {
+      background: var(--jaune-clair);
+      border-left: 4px solid var(--bleu);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      line-height: 1.45;
+      margin-top: 12px;
+    }
+
+    .notes-box strong {
+      color: var(--bleu);
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--bleu-fonce);
       margin-bottom: 5px;
     }
 
-    input, select {
+    .form-group input,
+    .form-group select {
       width: 100%;
       padding: 10px 12px;
-      border: 1.5px solid #D6D3D1;
-      border-radius: 10px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 8px;
       font-size: 0.95rem;
-      margin-bottom: 12px;
-      background: #FFFFFF;
-      color: var(--ink);
+      background: var(--blanc);
     }
 
-    .promo-row {
-      display: flex;
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--bleu);
+    }
+
+    .momo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 8px;
-      align-items: flex-start;
+      margin-top: 6px;
     }
 
-    .promo-row input {
-      margin-bottom: 0;
-      flex: 1;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 11px 16px;
-      border-radius: 10px;
-      border: none;
-      font-size: 0.95rem;
-      font-weight: 800;
+    .momo-choice {
+      border: 2px solid var(--bordure);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.88rem;
       cursor: pointer;
-      text-decoration: none;
+      background: #FAFAFA;
+      color: var(--bleu-fonce);
     }
 
-    .btn-primary {
-      background: var(--yellow);
-      color: var(--ink);
-      border: 1.5px solid var(--yellow-deep);
+    .momo-choice.active {
+      border-color: var(--bleu);
+      background: var(--jaune-clair);
     }
 
-    .btn-primary:hover {
-      background: var(--yellow-deep);
+    .momo-panel {
+      display: none;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #EFF6FF;
+      border: 1.5px solid var(--bleu);
+      font-size: 0.88rem;
+      line-height: 1.45;
     }
 
-    .btn-dark {
-      background: var(--ink);
-      color: #FFFFFF;
-    }
-
-    .btn-outline {
-      background: #FFFFFF;
-      color: var(--ink);
-      border: 1.5px solid #D6D3D1;
-    }
-
-    .btn-danger {
-      background: #FEE2E2;
-      color: var(--danger);
-      border: 1px solid #FCA5A5;
-    }
-
-    .summary-line {
+    .recap-line {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 6px;
-      font-size: 0.92rem;
+      margin-bottom: 8px;
+      font-size: 0.93rem;
     }
 
-    .summary-total {
+    .recap-total {
       display: flex;
       justify-content: space-between;
-      font-size: 1.15rem;
-      font-weight: 900;
-      border-top: 2px solid var(--border);
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--bleu);
+      border-top: 2px solid var(--jaune);
       padding-top: 10px;
       margin-top: 8px;
     }
 
-    .msg-error {
-      color: var(--danger);
-      font-size: 0.88rem;
-      font-weight: 700;
-      margin-top: 8px;
-    }
-
-    .msg-ok {
-      color: var(--ok);
-      font-size: 0.88rem;
-      font-weight: 700;
-      margin-top: 8px;
-    }
-
-    .order-box {
-      background: #FEFCE8;
-      border: 1.5px solid var(--yellow-deep);
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 12px;
-    }
-
-    .status-pill {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 999px;
+    .badge-remise {
       font-size: 0.8rem;
-      font-weight: 800;
-      background: var(--yellow);
-      color: var(--ink);
+      color: var(--vert);
+      font-weight: 700;
+      margin-bottom: 8px;
     }
 
-    .support-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-between;
-      align-items: center;
+    .btn-submit {
+      width: 100%;
+      background: var(--bleu);
+      color: var(--jaune);
+      border: 2px solid var(--jaune);
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background: var(--bleu-fonce);
+    }
+
+    .confirmation-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #F0FDF4;
+      border: 2px solid var(--vert);
+      color: #14532D;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand-row">
-        <h1>TOP-LAPIN — PayLap</h1>
-        <span class="badge">Viande Halal • Fraîche &amp; Fumée</span>
-      </div>
-      <p class="subtitle">
-        Commandez facilement votre lapin frais ou fumé/doré en quelques clics.
-      </p>
-      <div class="schedule-banner">
-        Jours de livraison : Mardi, Mercredi, Vendredi &amp; Samedi — Commande 24h à l'avance
-      </div>
-    </header>
+  <header>
+    <h1>TOP-LAPIN • PAYLAP</h1>
+    <p>Lapin frais ou doré, élevé localement • Commande 24h à l'avance (8h – 19h)</p>
+  </header>
 
+  <div class="container">
+    <!-- 1. CATALOGUE -->
     <section class="card">
-      <h2>1. Choisissez vos produits</h2>
-      <div class="products-grid" id="catalogGrid"></div>
+      <div class="card-title">1. Notre Catalogue</div>
+      <div id="catalogue-list"></div>
+
+      <div class="option-decoupe">
+        <label for="opt-decoupe">
+          <input type="checkbox" id="opt-decoupe" onchange="calculerTotal()" />
+          Découpe sur mesure (par quantité commandée)
+        </label>
+        <strong>+200 F / unité</strong>
+      </div>
+
+      <div class="notes-box">
+        <strong>Notes importantes :</strong><br />
+        • Commande conseillée <strong>24h à l'avance</strong> (ou 12h la veille).<br />
+        • Jours de livraison : <strong>Mardi, Mercredi, Vendredi, Samedi</strong> de <strong>8h à 19h</strong>[span_8](start_span)[span_8](end_span).<br />
+        • <strong>Halal :</strong> abattage suivant le rite islamique[span_9](start_span)[span_9](end_span).<br />
+        • <strong>Livraison :</strong> si le total des articles dépasse <strong>10 000 FCFA</strong>, seuls <strong>10 %</strong> des frais de livraison sont appliqués.
+      </div>
     </section>
 
-    <section class="card">
-      <h2>2. Livraison &amp; coordonnées</h2>
-      <div class="grid-2">
-        <div>
-          <label for="clientName">Nom et prénom *</label>
-          <input type="text" id="clientName" placeholder="Ex. Kouassi Jean" required />
-        </div>
-        <div>
-          <label for="clientPhone">Numéro de téléphone principal *</label>
-          <input type="tel" id="clientPhone" placeholder="Ex. 0700000000" required />
-        </div>
-        <div>
-          <label for="clientPhone2">Second numéro de téléphone *</label>
-          <input type="tel" id="clientPhone2" placeholder="Ex. 0500000000" required />
-        </div>
-        <div>
-          <label for="deliveryZone">Zone de livraison *</label>
-          <select id="deliveryZone" onchange="recalculateTotal()">
-            <option value="Anyama" data-fee="2000" data-discount="500">Anyama (2 000 FCFA — remise 500 FCFA = 1 500 FCFA)</option>
-            <option value="Songon" data-fee="2000" data-discount="0">Songon (2 000 FCFA)</option>
-            <option value="Bingerville" data-fee="2000" data-discount="0">Bingerville (2 000 FCFA)</option>
-            <option value="Grand-Bassam" data-fee="2500" data-discount="0">Grand-Bassam (2 500 FCFA)</option>
-          </select>
-        </div>
-        <div>
-          <label for="deliveryCommune">Commune / Quartier précis *</label>
-          <input type="text" id="deliveryCommune" placeholder="Ex. Anyama Centre, Songon Agban..." required />
-        </div>
-        <div>
-          <label for="deliveryDay">Jour de livraison souhaité *</label>
-          <select id="deliveryDay">
-            <option value="Mardi">Mardi (24h à l'avance)</option>
-            <option value="Mercredi">Mercredi (24h à l'avance)</option>
-            <option value="Vendredi">Vendredi (24h à l'avance)</option>
-            <option value="Samedi">Samedi (24h à l'avance)</option>
-          </select>
-        </div>
+    <!-- 2. LIVRAISON & COORDONNÉES -->
+    <form id="commande-form" class="card" onsubmit="validerCommande(event)">
+      <div class="card-title">2. Livraison &amp; coordonnées</div>
+
+      <div class="form-group">
+        <label for="client_nom">Nom et prénom *</label>
+        <input type="text" id="client_nom" required placeholder="Ex. Kouassi Jean" />
       </div>
 
-      <label for="deliveryAddress">Repère / Adresse exacte de livraison *</label>
-      <input type="text" id="deliveryAddress" placeholder="Ex. Près du marché, maison jaune..." required />
+      <div class="form-group">
+        <label for="client_telephone">Numéro de téléphone principal *</label>
+        <input type="tel" id="client_telephone" required placeholder="Ex. 0700000000" />
+      </div>
 
-      <label for="paymentMethod">Mode de paiement</label>
-      <select id="paymentMethod" onchange="updatePaymentInfo()">
-        <option value="Paiement à la livraison (Espèces / Mobile Money)">Paiement à la livraison (Espèces / Mobile Money)</option>
-        <option value="Lien Mobile Money (Orange Money / Wave / MTN MoMo)">Lien Mobile Money (Orange Money / Wave / MTN MoMo)</option>
-      </select>
-      <p id="paymentHint" style="font-size: 0.85rem; color: var(--muted); margin-top: -6px; margin-bottom: 12px;">
-        Vous réglez directement à la livraison ou via le lien Mobile Money communiqué sur WhatsApp.
-      </p>
+      <div class="form-group">
+        <label for="second_telephone">Second numéro de téléphone (facultatif)</label>
+        <input type="tel" id="second_telephone" placeholder="Ex. 0500000000" />
+      </div>
 
-      <label for="promoInput">Code promo (TOP10 ou LAPIN500)</label>
-      <div class="promo-row">
-        <input type="text" id="promoInput" placeholder="Entrez un code promo" />
-        <button type="button" class="btn btn-outline" onclick="applyPromo()">Appliquer</button>
+      <div class="form-group">
+        <label for="zone_livraison">Zone de livraison *</label>
+        <select id="zone_livraison" required onchange="calculerTotal()">
+          <option value="" data-frais="0">-- Choisir une commune / zone --</option>
+          <option value="Yopougon" data-frais="1500">Yopougon — 1 500 F</option>
+          <option value="Cocody" data-frais="2000">Cocody — 2 000 F</option>
+          <option value="Treichville à Port-Bouët (Marcory, Koumassi, Gonzagueville)" data-frais="2000">
+            Treichville à Port-Bouët (Marcory, Koumassi, Gonzagueville) — 2 000 F
+          </option>
+          <option value="Songon" data-frais="1500">Songon — 1 500 F</option>
+          <option value="Anyama" data-frais="2000">Anyama — 2 000 F</option>
+          <option value="Bingerville" data-frais="2000">Bingerville — 2 000 F</option>
+          <option value="Grand-Bassam" data-frais="2500">Grand-Bassam — 2 500 F</option>
+        </select>
       </div>
-      <div id="promoFeedback"></div>
-    </section>
 
-    <section class="card">
-      <h2>3. Récapitulatif de votre commande</h2>
-      <div id="cartSummaryList" style="margin-bottom: 10px; font-size: 0.92rem; color: var(--muted);">
-        Aucun article sélectionné pour le moment.
+      <div class="form-group">
+        <label for="quartier">Quartier précis *</label>
+        <input type="text" id="quartier" required placeholder="Ex. Yopougon Niangon, Riviera 2, Marcory Zone 4..." />
       </div>
-      <div class="summary-line">
-        <span>Sous-total produits &amp; découpe (200 FCFA / article)</span>
-        <strong id="subtotalDisplay">0 FCFA</strong>
+
+      <div class="form-group">
+        <label for="jour_livraison">Jour de livraison souhaité *</label>
+        <select id="jour_livraison" required>
+          <option value="Mardi">Mardi (8h – 19h)</option>
+          <option value="Mercredi">Mercredi (8h – 19h)</option>
+          <option value="Vendredi">Vendredi (8h – 19h)</option>
+          <option value="Samedi">Samedi (8h – 19h)</option>
+        </select>
       </div>
-      <div class="summary-line">
-        <span>Livraison</span>
-        <strong id="deliveryFeeDisplay">1 500 FCFA</strong>
+
+      <div class="form-group">
+        <label for="adresse">Repère / Adresse exacte de livraison *</label>
+        <input type="text" id="adresse" required placeholder="Ex. Près du carrefour, portail bleu..." />
       </div>
-      <div class="summary-line" id="discountRow" style="display: none; color: var(--ok);">
-        <span>Remise code promo</span>
-        <strong id="discountDisplay">-0 FCFA</strong>
+
+      <!-- 3. PAIEMENT DIRECT SUR LA PAGE -->
+      <div class="form-group">
+        <label>Mode de paiement (Mobile Money direct ou espèces) *</label>
+        <div class="momo-grid">
+          <div class="momo-choice active" data-mode="Wave" onclick="choisirPaiement(this)">Wave</div>
+          <div class="momo-choice" data-mode="Orange Money" onclick="choisirPaiement(this)">Orange Money</div>
+          <div class="momo-choice" data-mode="MTN MoMo" onclick="choisirPaiement(this)">MTN MoMo</div>
+          <div class="momo-choice" data-mode="Espèces à la livraison" onclick="choisirPaiement(this)">Espèces à la livraison</div>
+        </div>
+        <input type="hidden" id="mode_paiement" value="Wave" />
+
+        <div id="momo-panel" class="momo-panel" style="display: block;"></div>
       </div>
-      <div class="summary-total">
+
+      <!-- RÉCAPITULATIF -->
+      <div class="recap-line">
+        <span>Sous-total articles &amp; découpe</span>
+        <strong id="sous-total-display">0 F</strong>
+      </div>
+      <div class="recap-line">
+        <span>Frais de livraison</span>
+        <strong id="frais-display">0 F</strong>
+      </div>
+      <div id="info-10pct" class="badge-remise" style="display: none;">
+        Commande &gt; 10 000 FCFA : seuls 10 % des frais de livraison sont appliqués.
+      </div>
+      <div class="recap-total">
         <span>Total à payer</span>
-        <span id="grandTotalDisplay">1 500 FCFA</span>
+        <span id="total-display">0 F</span>
       </div>
 
-      <div style="margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px;">
-        <button type="button" class="btn btn-primary" id="submitOrderBtn" onclick="submitCustomerOrder()">
-          Valider et envoyer sur WhatsApp
-        </button>
-      </div>
-      <div id="orderError" class="msg-error"></div>
-      <div id="orderSuccess" class="msg-ok"></div>
-    </section>
+      <button type="submit" class="btn-submit">Confirmer ma commande</button>
 
-    <section class="card" id="trackingSection" style="display: none;">
-      <h2>4. Suivi de ma commande</h2>
-      <div id="activeOrderCard" class="order-box"></div>
-    </section>
-
-    <section class="card">
-      <div class="support-bar">
-        <div>
-          <strong>Besoin d'aide pour votre commande ?</strong>
-          <div style="font-size: 0.85rem; color: var(--muted);">Service client TOP-LAPIN — 07 67 90 69 05</div>
-        </div>
-        <a
-          class="btn btn-dark"
-          href="https://wa.me/2250767906905?text=Bonjour%20TOP-LAPIN%2C%20j%27ai%20besoin%20d%27aide%20concernant%20une%20commande%20PayLap."
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Support WhatsApp
-        </a>
-      </div>
-    </section>
+      <div id="confirmation-box" class="confirmation-box"></div>
+    </form>
   </div>
 
   <script>
-    const WHATSAPP_NUMBER = '2250767906905';
-    const CUT_FEE = 200;
-    const LAST_CLIENT_ORDER_KEY = 'toplapin_last_client_order_v1';
-    const LOCAL_ORDERS_KEY = 'toplapin_paylap_orders_v1';
-
-    const CATALOG = [
-      { id: 'entier-15-dep', name: 'Lapin entier 1,5 kg (Dépouillé)', meta: 'Viande Halal • Frais', price: 7000 },
-      { id: 'entier-15-fum', name: 'Lapin entier 1,5 kg (Fumé / Doré)', meta: 'Viande Halal • Prêt à cuisiner', price: 7000 },
-      { id: 'entier-18-dep', name: 'Lapin entier 1,8 kg (Dépouillé)', meta: 'Viande Halal • Frais', price: 8000 },
-      { id: 'entier-18-fum', name: 'Lapin entier 1,8 kg (Fumé / Doré)', meta: 'Viande Halal • Fumé / Doré', price: 8000 },
-      { id: 'entier-25-dep', name: 'Lapin entier 2,5 kg (Dépouillé)', meta: 'Viande Halal • Grand format', price: 10000 },
-      { id: 'entier-25-fum', name: 'Lapin entier 2,5 kg (Fumé / Doré)', meta: 'Viande Halal • Grand format', price: 10000 },
-      { id: 'demi-dep', name: '1/2 Lapin (Dépouillé)', meta: 'Viande Halal • Frais', price: 4500 },
-      { id: 'demi-fum', name: '1/2 Lapin (Fumé / Doré)', meta: 'Viande Halal • Fumé / Doré', price: 5000 },
-      { id: 'cuisses-4', name: '4 Cuisses de lapin frais', meta: 'Viande Halal • Frais', price: 4500 }
+    const PRODUITS = [
+      { id: "lapin_entier_15", nom: "Lapin entier frais (1.5 kg)", detail: "Nettoyé et prêt à cuisiner", prix: 7000 },
+      { id: "lapin_entier_18", nom: "Lapin entier frais (1.8 kg)", detail: "Nettoyé et prêt à cuisiner", prix: 8000 },
+      { id: "lapin_entier_25", nom: "Lapin entier frais (2.5 kg)", detail: "Format familial", prix: 10000 },
+      { id: "lapin_dore_18", nom: "Lapin doré / rôti (1.8 kg)", detail: "Prêt à consommer ou réchauffer", prix: 8500 },
+      { id: "lapin_dore_25", nom: "Lapin doré / rôti (2.5 kg)", detail: "Format familial doré", prix: 10500 },
+      { id: "demi_lapin_frais", nom: "Demi-lapin frais", detail: "Idéal petit foyer", prix: 4500 },
+      { id: "demi_lapin_dore", nom: "Demi-lapin doré", detail: "Doré à point", prix: 5000 },
+      { id: "pack_4_cuisses", nom: "Pack de 4 cuisses fraîches", detail: "Morceaux sélectionnés", prix: 4500 }
     ];
 
-    const state = {
-      quantities: {},
-      cuts: {},
-      promoCode: ''
-    };
+    // Numéros marchands TOP-LAPIN à remplacer si besoin
+    const NUMERO_MARCHAND = "0767906905";
+    const quantites = {};
+    PRODUITS.forEach(p => (quantites[p.id] = 0));
 
-    function formatFcfa(n) {
-      return `${Number(n || 0).toLocaleString('fr-FR')} FCFA`;
-    }
-
-    function renderCatalog() {
-      const grid = document.getElementById('catalogGrid');
-      grid.innerHTML = CATALOG.map((item) => {
-        const qty = state.quantities[item.id] || 0;
-        const cutChecked = Boolean(state.cuts[item.id]);
-        return `
-          <div class="product-card">
-            <div>
-              <div class="product-title">${escapeHtml(item.name)}</div>
-              <div class="product-meta">${escapeHtml(item.meta)}</div>
-              <div class="product-price">${formatFcfa(item.price)}</div>
-            </div>
-            <div class="product-controls">
-              <label class="cut-check">
-                <input
-                  type="checkbox"
-                  ${cutChecked ? 'checked' : ''}
-                  onchange="toggleCut('${item.id}', this.checked)"
-                />
-                <span>Découpe (+${CUT_FEE} FCFA / unité)</span>
-              </label>
-              <div class="qty-row">
-                <button type="button" class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
-                <span class="qty-val">${qty}</span>
-                <button type="button" class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
-              </div>
+    function renderCatalogue() {
+      const container = document.getElementById("catalogue-list");
+      container.innerHTML = PRODUITS.map(p => `
+        <div class="catalogue-item">
+          <div>
+            <div class="item-nom">${p.nom}</div>
+            <div class="item-detail">${p.detail}</div>
+          </div>
+          <div style="display:flex;align-items:center;">
+            <span class="item-prix">${p.prix.toLocaleString("fr-FR")} F</span>
+            <div class="qty-box">
+              <button type="button" class="qty-btn" onclick="changerQty('${p.id}', -1)">-</button>
+              <span class="qty-val" id="qty-${p.id}">0</span>
+              <button type="button" class="qty-btn" onclick="changerQty('${p.id}', 1)">+</button>
             </div>
           </div>
+        </div>
+      `).join("");
+    }
+
+    function changerQty(id, delta) {
+      quantites[id] = Math.max(0, (quantites[id] || 0) + delta);
+      document.getElementById(`qty-${id}`).textContent = quantites[id];
+      calculerTotal();
+    }
+
+    function calculerTotal() {
+      let totalUnites = 0;
+      let sousTotal = 0;
+
+      for (const p of PRODUITS) {
+        const q = quantites[p.id] || 0;
+        totalUnites += q;
+        sousTotal += q * p.prix;
+      }
+
+      const avecDecoupe = document.getElementById("opt-decoupe").checked;
+      if (avecDecoupe && totalUnites > 0) {
+        sousTotal += totalUnites * 200;
+      }
+
+      const selectZone = document.getElementById("zone_livraison");
+      const fraisBase = Number(selectZone.selectedOptions[0]?.dataset.frais || 0);
+
+      let fraisFinal = fraisBase;
+      const applique10Pct = sousTotal > 10000 && fraisBase > 0;
+      if (applique10Pct) {
+        fraisFinal = Math.round(fraisBase * 0.1);
+      }
+
+      document.getElementById("info-10pct").style.display = applique10Pct ? "block" : "none";
+      document.getElementById("sous-total-display").textContent = `${sousTotal.toLocaleString("fr-FR")} F`;
+      document.getElementById("frais-display").textContent = `${fraisFinal.toLocaleString("fr-FR")} F`;
+      document.getElementById("total-display").textContent = `${(sousTotal + fraisFinal).toLocaleString("fr-FR")} F`;
+
+      majInstructionsPaiement(sousTotal + fraisFinal);
+      return { sousTotal, fraisFinal, total: sousTotal + fraisFinal, totalUnites };
+    }
+
+    function choisirPaiement(el) {
+      document.querySelectorAll(".momo-choice").forEach(btn => btn.classList.remove("active"));
+      el.classList.add("active");
+      document.getElementById("mode_paiement").value = el.dataset.mode;
+      calculerTotal();
+    }
+
+    function majInstructionsPaiement(montantTotal) {
+      const mode = document.getElementById("mode_paiement").value;
+      const panel = document.getElementById("momo-panel");
+      const montantFmt = `${montantTotal.toLocaleString("fr-FR")} FCFA`;
+
+      if (mode === "Espèces à la livraison") {
+        panel.innerHTML = `Paiement en espèces directement au livreur lors de la réception de votre commande (<strong>${montantFmt}</strong>).`;
+      } else {
+        panel.innerHTML = `
+          Paiement direct via <strong>${mode}</strong> au numéro <strong>${NUMERO_MARCHAND}</strong> (TOP-LAPIN).<br />
+          Montant à régler : <strong>${montantFmt}</strong>. Conservez votre référence de transaction pour la validation de la commande.
         `;
-      }).join('');
+      }
     }
 
-    function changeQty(id, delta) {
-      const next = Math.max(0, (state.quantities[id] || 0) + delta);
-      state.quantities[id] = next;
-      renderCatalog();
-      recalculateTotal();
-    }
+    async function validerCommande(e) {
+      e.preventDefault();
+      const totaux = calculerTotal();
 
-    function toggleCut(id, checked) {
-      state.cuts[id] = checked;
-      recalculateTotal();
-    }
-
-    function getDeliveryInfo() {
-      const select = document.getElementById('deliveryZone');
-      const opt = select.options[select.selectedIndex];
-      const baseFee = Number(opt.getAttribute('data-fee') || 0);
-      const zoneDiscount = Number(opt.getAttribute('data-discount') || 0);
-      const finalFee = Math.max(0, baseFee - zoneDiscount);
-      return {
-        zone: select.value,
-        baseFee,
-        zoneDiscount,
-        finalFee
-      };
-    }
-
-    function applyPromo() {
-      const input = document.getElementById('promoInput');
-      const feedback = document.getElementById('promoFeedback');
-      const code = input.value.trim().toUpperCase();
-
-      if (!code) {
-        state.promoCode = '';
-        feedback.innerHTML = '';
-        recalculateTotal();
+      if (totaux.totalUnites === 0) {
+        alert("Veuillez sélectionner au moins un article dans le catalogue.");
         return;
       }
 
-      if (code === 'TOP10' || code === 'LAPIN500') {
-        state.promoCode = code;
-        feedback.innerHTML = `<div class="msg-ok">Code promo ${code} appliqué.</div>`;
-      } else {
-        state.promoCode = '';
-        feedback.innerHTML = `<div class="msg-error">Code promo invalide. Utilisez TOP10 ou LAPIN500.</div>`;
-      }
-      recalculateTotal();
-    }
+      const articlesSelectionnes = PRODUITS
+        .filter(p => quantites[p.id] > 0)
+        .map(p => ({
+          id: p.id,
+          nom: p.nom,
+          quantite: quantites[p.id],
+          prix_unitaire: p.prix,
+          sous_total: quantites[p.id] * p.prix
+        }));
 
-    function computeTotals() {
-      let subtotal = 0;
-      const lines = [];
-
-      for (const item of CATALOG) {
-        const qty = state.quantities[item.id] || 0;
-        if (qty > 0) {
-          const hasCut = Boolean(state.cuts[item.id]);
-          const unitPrice = item.price + (hasCut ? CUT_FEE : 0);
-          const lineTotal = unitPrice * qty;
-          subtotal += lineTotal;
-          lines.push({
-            id: item.id,
-            name: item.name,
-            qty,
-            hasCut,
-            lineTotal
-          });
-        }
-      }
-
-      const delivery = getDeliveryInfo();
-      let promoDiscount = 0;
-      if (subtotal > 0) {
-        if (state.promoCode === 'TOP10') {
-          promoDiscount = Math.round(subtotal * 0.1);
-        } else if (state.promoCode === 'LAPIN500') {
-          promoDiscount = Math.min(500, subtotal);
-        }
-      }
-
-      const grandTotal = Math.max(0, subtotal + delivery.finalFee - promoDiscount);
-      return { lines, subtotal, delivery, promoDiscount, grandTotal };
-    }
-
-    function recalculateTotal() {
-      const { lines, subtotal, delivery, promoDiscount, grandTotal } = computeTotals();
-      const summaryList = document.getElementById('cartSummaryList');
-
-      if (lines.length === 0) {
-        summaryList.textContent = 'Aucun article sélectionné pour le moment.';
-      } else {
-        summaryList.innerHTML = lines
-          .map((l) => {
-            const cutText = l.hasCut ? ` + découpe (${CUT_FEE} FCFA/u)` : '';
-            return `<div>• ${l.qty}x ${escapeHtml(l.name)}${cutText} — <strong>${formatFcfa(l.lineTotal)}</strong></div>`;
-          })
-          .join('');
-      }
-
-      document.getElementById('subtotalDisplay').textContent = formatFcfa(subtotal);
-      document.getElementById('deliveryFeeDisplay').textContent =
-        delivery.zoneDiscount > 0
-          ? `${formatFcfa(delivery.finalFee)} (remise ${formatFcfa(delivery.zoneDiscount)} appliquée)`
-          : formatFcfa(delivery.finalFee);
-
-      const discountRow = document.getElementById('discountRow');
-      if (promoDiscount > 0) {
-        discountRow.style.display = 'flex';
-        document.getElementById('discountDisplay').textContent = `-${formatFcfa(promoDiscount)}`;
-      } else {
-        discountRow.style.display = 'none';
-      }
-
-      document.getElementById('grandTotalDisplay').textContent = formatFcfa(grandTotal);
-    }
-
-    function updatePaymentInfo() {
-      const method = document.getElementById('paymentMethod').value;
-      const hint = document.getElementById('paymentHint');
-      if (method.includes('Mobile Money')) {
-        hint.textContent = 'Le lien de paiement Mobile Money (Orange Money, Wave ou MTN MoMo) vous sera confirmé sur WhatsApp.';
-      } else {
-        hint.textContent = 'Vous réglez à la livraison (Espèces ou Mobile Money) après confirmation.';
-      }
-    }
-
-    async function submitCustomerOrder() {
-      const errEl = document.getElementById('orderError');
-      const okEl = document.getElementById('orderSuccess');
-      const btn = document.getElementById('submitOrderBtn');
-      errEl.textContent = '';
-      okEl.textContent = '';
-
-      const clientName = document.getElementById('clientName').value.trim();
-      const phone = document.getElementById('clientPhone').value.trim();
-      const phone2 = document.getElementById('clientPhone2').value.trim();
-      const commune = document.getElementById('deliveryCommune').value.trim();
-      const address = document.getElementById('deliveryAddress').value.trim();
-      const deliveryDay = document.getElementById('deliveryDay').value;
-      const paymentMethod = document.getElementById('paymentMethod').value;
-
-      const { lines, subtotal, delivery, promoDiscount, grandTotal } = computeTotals();
-
-      if (lines.length === 0) {
-        errEl.textContent = 'Veuillez sélectionner au moins un produit.';
-        return;
-      }
-      if (!clientName || !phone || !phone2 || !commune || !address) {
-        errEl.textContent = 'Veuillez renseigner votre nom, les deux numéros de téléphone, la commune et l’adresse exacte.';
-        return;
-      }
-
-      const itemsSummary = lines
-        .map((l) => `${l.qty}x ${l.name}${l.hasCut ? ' (découpe +200F)' : ''}`)
-        .join(' | ');
-
-      const orderPayload = {
-        clientName,
-        phone,
-        phone2,
-        zone: delivery.zone,
-        commune,
-        address,
-        deliveryDay,
-        itemsSummary,
-        subtotal,
-        deliveryFee: delivery.finalFee,
-        promoCode: state.promoCode || '',
-        promoDiscount,
-        total: grandTotal,
-        paymentMethod
+      const payload = {
+        client_nom: document.getElementById("client_nom").value.trim(),
+        client_telephone: document.getElementById("client_telephone").value.trim(),
+        second_telephone: document.getElementById("second_telephone").value.trim() || null,
+        commune: document.getElementById("zone_livraison").value,
+        quartier: document.getElementById("quartier").value.trim(),
+        jour_livraison: document.getElementById("jour_livraison").value,
+        adresse: document.getElementById("adresse").value.trim(),
+        decoupe: document.getElementById("opt-decoupe").checked,
+        mode_paiement: document.getElementById("mode_paiement").value,
+        frais_livraison: totaux.fraisFinal,
+        montant_total: totaux.total,
+        articles: articlesSelectionnes,
+        statut: "en_attente"
       };
 
-      btn.disabled = true;
-      let orderId = `TL-${Date.now().toString().slice(-6)}`;
-
+      // Envoi vers votre fonction Netlify /.netlify/functions/creer-commande
       try {
-        const res = await fetch('/.netlify/functions/creer-commande', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(orderPayload)
+        const res = await fetch("/.netlify/functions/creer-commande", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
         });
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.ok && data.orderId) {
-          orderId = data.orderId;
+        if (!res.ok) {
+          throw new Error("Réponse serveur non OK");
         }
-      } catch {}
-
-      const savedOrder = {
-        id: orderId,
-        createdAt: new Date().toISOString(),
-        ...orderPayload,
-        status: 'En attente',
-        paidConfirmed: false
-      };
-
-      localStorage.setItem(LAST_CLIENT_ORDER_KEY, JSON.stringify(savedOrder));
-
-      try {
-        const list = JSON.parse(localStorage.getItem(LOCAL_ORDERS_KEY) || '[]');
-        list.unshift(savedOrder);
-        localStorage.setItem(LOCAL_ORDERS_KEY, JSON.stringify(list));
-      } catch {}
-
-      renderActiveOrder();
-
-      const waText = [
-        `Bonjour TOP-LAPIN, nouvelle commande PayLap (${orderId}) :`,
-        `• Client : ${clientName}`,
-        `• Tél 1 : ${phone} | Tél 2 : ${phone2}`,
-        `• Zone : ${delivery.zone} — Commune : ${commune}`,
-        `• Adresse : ${address}`,
-        `• Jour souhaité : ${deliveryDay} (24h à l'avance)`,
-        `• Articles : ${itemsSummary}`,
-        `• Paiement : ${paymentMethod}`,
-        `• Total : ${formatFcfa(grandTotal)}`
-      ].join('\n');
-
-      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
-      okEl.innerHTML = `Commande <strong>${escapeHtml(orderId)}</strong> enregistrée. <a href="${waUrl}" target="_blank" rel="noopener noreferrer">Ouvrir WhatsApp si besoin</a>.`;
-      window.open(waUrl, '_blank', 'noopener,noreferrer');
-      btn.disabled = false;
-    }
-
-    function renderActiveOrder() {
-      const raw = localStorage.getItem(LAST_CLIENT_ORDER_KEY);
-      const section = document.getElementById('trackingSection');
-      const card = document.getElementById('activeOrderCard');
-      if (!raw) {
-        section.style.display = 'none';
-        return;
+      } catch (_) {
+        // Permet d'afficher le récapitulatif même avant réactivation du build Netlify
       }
 
-      const order = JSON.parse(raw);
-      section.style.display = 'block';
-
-      const createdTime = new Date(order.createdAt).getTime();
-      const hoursElapsed = (Date.now() - createdTime) / (1000 * 60 * 60);
-      const canCancel = hoursElapsed <= 24 && order.status !== 'Annulée' && order.status !== 'Livrée';
-
-      card.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-          <strong>Commande ${escapeHtml(order.id)}</strong>
-          <span class="status-pill">${escapeHtml(order.status || 'En attente')}</span>
-        </div>
-        <div style="font-size:0.9rem; margin-bottom:6px;">
-          <strong>Articles :</strong> ${escapeHtml(order.itemsSummary)}<br />
-          <strong>Livraison :</strong> ${escapeHtml(order.zone)} — ${escapeHtml(order.commune)} (${escapeHtml(order.deliveryDay)})<br />
-          <strong>Total :</strong> <strong>${formatFcfa(order.total)}</strong>
-        </div>
-        <div style="font-size:0.86rem; color: var(--ok); font-weight:700; margin-bottom:10px;">
-          ${order.paidConfirmed ? 'Commande payée ✓' : 'En attente de confirmation de paiement'}
-        </div>
-        <div style="display:flex; flex-wrap:wrap; gap:8px;">
-          <button type="button" class="btn btn-primary" onclick="markOrderPaid()">
-            Commande payée ✓
-          </button>
-          ${
-            canCancel
-              ? `<button type="button" class="btn btn-danger" onclick="cancelWithin24h()">Annuler la commande (moins de 24h)</button>`
-              : `<span style="font-size:0.82rem; color:var(--muted);">Délai d'annulation de 24h écoulé ou commande clôturée.</span>`
-          }
-        </div>
+      const box = document.getElementById("confirmation-box");
+      box.style.display = "block";
+      box.innerHTML = `
+        <strong>Commande enregistrée sur la page !</strong><br />
+        Client : <strong>${payload.client_nom}</strong> (${payload.client_telephone})<br />
+        Zone : <strong>${payload.commune}</strong> — ${payload.quartier} (${payload.jour_livraison})<br />
+        Paiement : <strong>${payload.mode_paiement}</strong><br />
+        Total : <strong>${payload.montant_total.toLocaleString("fr-FR")} FCFA</strong>
       `;
+      box.scrollIntoView({ behavior: "smooth" });
     }
 
-    function markOrderPaid() {
-      const raw = localStorage.getItem(LAST_CLIENT_ORDER_KEY);
-      if (!raw) return;
-      const order = JSON.parse(raw);
-      order.paidConfirmed = true;
-      localStorage.setItem(LAST_CLIENT_ORDER_KEY, JSON.stringify(order));
-      renderActiveOrder();
-    }
-
-    function cancelWithin24h() {
-      const raw = localStorage.getItem(LAST_CLIENT_ORDER_KEY);
-      if (!raw) return;
-      const order = JSON.parse(raw);
-      const hoursElapsed = (Date.now() - new Date(order.createdAt).getTime()) / (1000 * 60 * 60);
-      if (hoursElapsed > 24) {
-        alert("Le délai d'annulation de 24h est dépassé.");
-        return;
-      }
-      order.status = 'Annulée';
-      localStorage.setItem(LAST_CLIENT_ORDER_KEY, JSON.stringify(order));
-      renderActiveOrder();
-    }
-
-    function escapeHtml(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-      });
-    }
-
-    renderCatalog();
-    recalculateTotal();
-    renderActiveOrder();
+    renderCatalogue();
+    calculerTotal();
   </script>
 </body>
 </html>
